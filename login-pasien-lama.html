@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Pasien Lama - RS PKU Muhammadiyah Surabaya</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #45B7B8;
+            --dark: #2C5F5D;
+            --light: #F5F5F5;
+            --shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Base Styles */
+        * { 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--light); 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        
+        /* Header Styles */
+        .header { 
+            background: white; 
+            padding: 1rem 0; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            position: relative; 
+            z-index: 1000; 
+        }
+
+        .logo { 
+            width: 60px; 
+            height: 60px; 
+            background: url('assets/images/logo-rs-pku.png') center/cover no-repeat; 
+            background-color: #f8f9fa; 
+            border-radius: 50%; 
+            margin-right: 15px; 
+            border: 3px solid var(--primary); 
+        }
+
+        .hospital-name { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: #2C3E50; 
+            margin: 0; 
+            line-height: 1.2; 
+        }
+
+        .hospital-subtitle { 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            color: var(--secondary); 
+            margin: 0; 
+            line-height: 1.2; 
+        }
+        
+        /* Navigation Styles */
+        .hamburger { 
+            border: none; 
+            background: none; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-around; 
+            width: 30px; 
+            height: 30px; 
+            cursor: pointer; 
+            padding: 0; 
+            transition: all 0.3s ease; 
+        }
+
+        .hamburger span { 
+            display: block; 
+            height: 3px; 
+            width: 100%; 
+            background: var(--dark); 
+            border-radius: 2px; 
+            transition: all 0.3s ease; 
+        }
+
+        .hamburger:hover span { 
+            background: var(--primary); 
+        }
+
+        .hamburger.active span:nth-child(1) { 
+            transform: rotate(45deg) translate(6px, 6px); 
+        }
+
+        .hamburger.active span:nth-child(2) { 
+            opacity: 0; 
+        }
+
+        .hamburger.active span:nth-child(3) { 
+            transform: rotate(-45deg) translate(6px, -6px); 
+        }
+        
+        .navbar-nav { 
+            display: none; 
+        }
+
+        .mobile-menu { 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            border-radius: 0 0 20px 20px; 
+            transform: translateY(-100%); 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+            z-index: 999; 
+        }
+
+        .mobile-menu.active { 
+            transform: translateY(0); 
+            opacity: 1; 
+            visibility: visible; 
+        }
+
+        .mobile-menu-content { 
+            padding: 1rem 0; 
+        }
+
+        .mobile-menu-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            padding: 1rem 2rem; 
+            color: #2C3E50; 
+            text-decoration: none; 
+            font-weight: 500; 
+            transition: all 0.3s ease; 
+            border-left: 4px solid transparent; 
+        }
+
+        .mobile-menu-item.active { 
+            background: rgba(78, 205, 196, 0.1); 
+            border-left-color: var(--primary); 
+            color: var(--primary); 
+        }
+
+        .mobile-menu-item:hover { 
+            background: rgba(78, 205, 196, 0.1); 
+            border-left-color: var(--primary); 
+            color: var(--primary); 
+            text-decoration: none; 
+            transform: translateX(10px); 
+        }
+
+        .menu-icon { 
+            font-size: 1.2rem; 
+            width: 24px; 
+            text-align: center; 
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: #4ecdc4;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-13px);
+        }
+
+        .back-button:hover {
+            background: #4ecdc4;
+            color: white;
+            transform: translateY(-13px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Main Content Styles */
+        .main-container { 
+            min-height: calc(100vh - 100px); 
+            display: flex; 
+            align-items: center; 
+            padding: 2rem 0; 
+            position: relative; 
+        }
+
+        .page-title { 
+            text-align: center; 
+            margin-bottom: 3rem; 
+        }
+
+        .page-title h1 { 
+            font-size: 2rem; 
+            font-weight: 700; 
+            color: #2C3E50; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .page-subtitle { 
+            font-size: 1rem; 
+            color: var(--primary); 
+            font-weight: 500; 
+        }
+        
+        .illustration-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 400px; 
+            margin-bottom: 2rem; 
+        }
+
+        .doctor-illustration { 
+            width: 100%; 
+            max-width: 400px; 
+            height: 350px; 
+            background: url('assets/images/patient.png') center/contain no-repeat; 
+            background-color: transparent; 
+            transition: transform 0.4s ease; 
+        }
+
+        .doctor-illustration:hover { 
+            transform: scale(1.02); 
+        }
+        
+        /* Form Styles */
+        .login-card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 2.5rem; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            max-width: 450px; 
+            margin: 0 auto; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        .login-card::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: -100%; 
+            width: 100%; 
+            height: 4px; 
+            background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+            transition: left 0.6s ease; 
+        }
+
+        .login-card:hover::before { 
+            left: 0; 
+        }
+
+        .login-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
+        }
+        
+        .form-group { 
+            margin-bottom: 2rem; 
+        }
+
+        .form-label { 
+            font-weight: 600; 
+            color: #2C3E50; 
+            margin-bottom: 0.5rem; 
+            font-size: 0.95rem; 
+        }
+
+        .form-control-custom { 
+            width: 100%; 
+            padding: 15px 20px; 
+            border: 2px solid #E9ECEF; 
+            border-radius: 15px; 
+            font-size: 1rem; 
+            transition: all 0.3s ease; 
+            background: #F8F9FA; 
+        }
+
+        .form-control-custom:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background: white; 
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1); 
+            transform: translateY(-1px); 
+        }
+
+        .form-control-custom::placeholder { 
+            color: #ADB5BD; 
+            font-weight: 400; 
+        }
+        
+        .captcha-container { 
+            display: flex; 
+            gap: 15px; 
+            align-items: center; 
+            margin-bottom: 2rem; 
+        }
+
+        .captcha-code { 
+            background: var(--dark); 
+            color: white; 
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            letter-spacing: 2px; 
+            min-width: 120px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden; 
+            cursor: pointer; 
+        }
+
+        .captcha-code::before { 
+            content: ''; 
+            position: absolute; 
+            top: -50%; 
+            left: -50%; 
+            width: 200%; 
+            height: 200%; 
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); 
+            transform: rotate(45deg); 
+            transition: all 0.6s ease; 
+            opacity: 0; 
+        }
+
+        .captcha-container:hover .captcha-code::before { 
+            animation: shimmer 1.5s ease-in-out; 
+        }
+
+        .captcha-input { 
+            flex: 1; 
+        }
+        
+        .btn-login { 
+            width: 100%; 
+            padding: 15px 20px; 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            border: none; 
+            border-radius: 50px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: white; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; 
+            overflow: hidden; 
+            margin-top: 1rem; 
+        }
+
+        .btn-login::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: -100%; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); 
+            transition: left 0.6s ease; 
+        }
+
+        .btn-login:hover::before { 
+            left: 100%; 
+        }
+
+        .btn-login:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: var(--shadow); 
+            background: linear-gradient(135deg, var(--secondary), var(--primary)); 
+        }
+
+        .btn-login:active { 
+            transform: translateY(-1px) scale(0.98); 
+            transition: all 0.1s ease; 
+        }
+        
+        /* Loading State */
+        .btn-login.loading { 
+            pointer-events: none; 
+            opacity: 0.7; 
+        }
+
+        .btn-login.loading::after { 
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 20px; 
+            height: 20px; 
+            margin: -10px 0 0 -10px; 
+            border: 2px solid transparent; 
+            border-top: 2px solid white; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+        }
+        
+        /* Error States */
+        .form-control-custom.error { 
+            border-color: #dc3545; 
+            background: #fff5f5; 
+        }
+
+        .error-message { 
+            color: #dc3545; 
+            font-size: 0.85rem; 
+            margin-top: 0.5rem; 
+            display: none; 
+        }
+
+        .error-message.show { 
+            display: block; 
+            animation: slideDown 0.3s ease; 
+        }
+
+        /* Animations */
+        @keyframes shimmer {
+            0% { 
+                transform: translateX(-100%) translateY(-100%) rotate(45deg); 
+                opacity: 0; 
+            }
+            50% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100%) translateY(100%) rotate(45deg); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes spin { 
+            to { 
+                transform: rotate(360deg); 
+            } 
+        }
+
+        @keyframes slideDown { 
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            } 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        }
+
+         @keyframes ripple { 
+            to {  
+                transform: scale(4); 
+                opacity: 0; 
+            } 
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hospital-name { 
+                font-size: 1rem; 
+            }
+            .hospital-subtitle { 
+                font-size: 0.8rem; 
+            }
+            .logo { 
+                width: 50px; 
+                height: 50px; 
+            }
+            .back-button { 
+                width: 45px; 
+                height: 45px; 
+                top: 85px; 
+                left: 15px; 
+                font-size: 1.3rem; 
+                /* Pastikan tetap tidak bergerak di mobile */
+                transform: none;
+            }
+            .main-container { 
+                padding: 1rem 0; 
+            }
+            .page-title h1 { 
+                font-size: 1.5rem; 
+            }
+            .page-subtitle { 
+                font-size: 0.9rem; 
+            }
+            .illustration-container { 
+                height: 250px; 
+                margin-bottom: 1rem; 
+            }
+            .doctor-illustration { 
+                height: 220px; 
+                max-width: 300px; 
+            }
+            .login-card { 
+                padding: 2rem; 
+                margin: 0 1rem; 
+            }
+            .captcha-container { 
+                flex-direction: column; 
+                gap: 10px; 
+                margin-bottom: 1.5rem; 
+            }
+            .captcha-code { 
+                width: 100%; 
+            }
+            .mobile-image-top { 
+                order: -1 !important; 
+            }
+            .mobile-form-bottom { 
+                order: 1 !important; 
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-card { 
+                padding: 1.5rem; 
+                margin: 0 0.5rem; 
+            }
+            .form-control-custom { 
+                padding: 12px 15px; 
+                font-size: 0.95rem; 
+            }
+            .btn-login { 
+                padding: 12px 15px; 
+                font-size: 1rem; 
+            }
+            .illustration-container { 
+                height: 200px; 
+                margin-bottom: 0.5rem; 
+            }
+            .doctor-illustration { 
+                height: 180px; 
+                max-width: 250px; 
+            }
+        }
+
+        .form-control-custom:focus, .btn-login:focus { 
+            outline: 3px solid rgba(78, 205, 196, 0.5); 
+            outline-offset: 2px; 
+        }
+
+        html { 
+            scroll-behavior: smooth; 
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()" title="Kembali ke halaman sebelumnya">←</button>
+    
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo" title="Logo RS PKU Muhammadiyah Surabaya"></div>
+                    <div>
+                        <div class="hospital-name">RS PKU</div>
+                        <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
+                    </div>
+                </div>
+                
+                <nav class="navbar-nav">
+                    <a href="informasi-pendaftaran.html" class="nav-link">Informasi</a>
+                    <a href="pendaftaran-pasien-baru.html" class="nav-link">Pasien Baru</a>
+                    <a href="login-pasien.html" class="nav-link active">Pasien Lama</a>
+                    <a href="pasien-bpjs.html" class="nav-link">BPJS</a>
+                </nav>
+                
+                <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <a href="informasi-pendaftaran.html" class="mobile-menu-item">
+                    <span class="menu-icon">📋</span><span class="menu-text">Informasi Pendaftaran</span>
+                </a>
+                <a href="pendaftaran-pasien-baru.html" class="mobile-menu-item">
+                    <span class="menu-icon">👤</span><span class="menu-text">Pasien Baru</span>
+                </a>
+                <a href="login-pasien.html" class="mobile-menu-item active">
+                    <span class="menu-icon">🔄</span><span class="menu-text">Pasien Lama</span>
+                </a>
+                <a href="pasien-bpjs.html" class="mobile-menu-item">
+                    <span class="menu-icon">🏥</span><span class="menu-text">Pasien BPJS</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="page-title">
+                <h1>Pendaftaran Pasien Lama</h1>
+                <div class="page-subtitle">Pasien yang sudah pernah mendaftar</div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 mobile-image-top">
+                    <div class="illustration-container">
+                        <div class="doctor-illustration" title="Ilustrasi Dokter dan Pasien"></div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mobile-form-bottom">
+                    <div class="login-card">
+                        <form id="loginForm" onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label" for="nomorRekamMedis">Nomor Rekam Medis</label>
+                                <input type="text" id="nomorRekamMedis" name="nomorRekamMedis" class="form-control-custom" placeholder="Masukkan Nomor Rekam Medis" required autocomplete="off">
+                                <div class="error-message" id="errorRekamMedis">Nomor Rekam Medis harus diisi</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="nik">Nomor Induk Kependudukan</label>
+                                <input type="text" id="nik" name="nik" class="form-control-custom" placeholder="Masukkan NIK" required pattern="[0-9]{16}" maxlength="16" autocomplete="off">
+                                <div class="error-message" id="errorNik">NIK harus 16 digit angka</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Captcha</label>
+                                <div class="captcha-container">
+                                    <div class="captcha-code" id="captchaCode" title="Klik untuk refresh captcha">12TG54Y</div>
+                                    <input type="text" id="captcha" name="captcha" class="form-control-custom captcha-input" placeholder="Masukkan Captcha" required autocomplete="off">
+                                </div>
+                                <div class="error-message" id="errorCaptcha">Captcha tidak sesuai</div>
+                            </div>
+
+                            <button type="submit" class="btn-login" id="loginBtn">Log In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            return captcha;
+        }
+
+        function initCaptcha() {
+            document.getElementById('captchaCode').textContent = generateCaptcha();
+        }
+
+        function validateForm() {
+            let isValid = true;
+            document.querySelectorAll('.form-control-custom').forEach(input => input.classList.remove('error'));
+            document.querySelectorAll('.error-message').forEach(error => error.classList.remove('show'));
+
+            const rekamMedis = document.getElementById('nomorRekamMedis').value.trim();
+            if (!rekamMedis) {
+                document.getElementById('nomorRekamMedis').classList.add('error');
+                document.getElementById('errorRekamMedis').classList.add('show');
+                isValid = false;
+            }
+
+            const nik = document.getElementById('nik').value.trim();
+            if (!nik || nik.length !== 16 || !/^[0-9]+$/.test(nik)) {
+                document.getElementById('nik').classList.add('error');
+                document.getElementById('errorNik').classList.add('show');
+                isValid = false;
+            }
+
+            const captcha = document.getElementById('captcha').value.trim();
+            const captchaCode = document.getElementById('captchaCode').textContent;
+            if (!captcha || captcha !== captchaCode) {
+                document.getElementById('captcha').classList.add('error');
+                document.getElementById('errorCaptcha').classList.add('show');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            if (!validateForm()) return;
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.classList.add('loading');
+            loginBtn.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                window.location.href = 'pilih-poli.html';
+                loginBtn.classList.remove('loading');
+                loginBtn.style.pointerEvents = 'auto';
+            }, 2000);
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCaptcha();
+            
+            document.getElementById('nik').addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            document.getElementById('captchaCode').addEventListener('click', function() {
+                initCaptcha();
+                document.getElementById('captcha').value = '';
+                document.getElementById('captcha').classList.remove('error');
+                document.getElementById('errorCaptcha').classList.remove('show');
+            });
+
+            document.querySelectorAll('.form-control-custom').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('error')) {
+                        this.classList.remove('error');
+                        const errorId = 'error' + this.name.charAt(0).toUpperCase() + this.name.slice(1);
+                        const errorEl = document.getElementById(errorId) || 
+                                       document.getElementById(errorId.replace('nomorRekamMedis', 'RekamMedis'));
+                        if (errorEl) errorEl.classList.remove('show');
+                    }
+                });
+            });
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.addEventListener('click', function(e) {
+                if (this.classList.contains('loading')) return;
+                
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);transform:scale(0);animation:ripple 0.6s linear;left:${x}px;top:${y}px;width:${size}px;height:${size}px`;
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+
+            document.addEventListener('click', function(e) {
+                const hamburger = document.querySelector('.hamburger');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran - RS PKU Muhammadiyah Surabaya</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4ECDC4;
+            --secondary-color: #45B7B8;
+            --dark-teal: #2C5F5D;
+            --light-gray: #F5F5F5;
+            --hover-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+            --payment-amount: 100000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-gray);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('assets/images/logo-rs-pku.png') center/cover no-repeat;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .hospital-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hospital-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hamburger {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            color: var(--dark-teal);
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .hamburger:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            transform: translateY(-5px);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-14px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Main Content */
+        .main-container {
+            min-height: calc(100vh - 200px);
+            background: white;
+            margin-top: -30px;
+            border-radius: 30px 30px 0 0;
+            padding: 3rem 0 8rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Payment Layout */
+        .payment-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .payment-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #F1F3F4;
+            transition: all 0.3s ease;
+        }
+
+        .payment-section:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #F1F3F4;
+        }
+
+        /* Payment Options */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .payment-option:hover::before {
+            left: 100%;
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.05);
+            transform: translateX(5px);
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.1);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .payment-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 25px;
+            height: 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transform: translateY(8px);
+        }
+
+        /* Payment Icons */
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .payment-icon.debit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .payment-icon.bank {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+
+        .payment-icon.gopay {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a085 100%);
+        }
+
+        .payment-icon.ovo {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+        }
+
+        .payment-icon.dana {
+            background: linear-gradient(135deg, #00b8d4 0%, #0095a8 100%);
+        }
+
+        .payment-icon.qris {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        /* Payment Labels */
+        .payment-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2C3E50;
+            flex: 1;
+        }
+
+        /* Radio Button (hidden) */
+        .payment-radio {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Total Payment Card */
+        .total-payment-card {
+            background: linear-gradient(135deg, var(--dark-teal), #1e4746);
+            color: white;
+            border-radius: 25px;
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+            box-shadow: 0 15px 35px rgba(44, 95, 93, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .total-payment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(44, 95, 93, 0.4);
+        }
+
+        .total-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-pay.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .btn-pay.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-pay.active:hover::before {
+            left: 100%;
+        }
+
+        .btn-pay.active:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        /* Payment Details */
+        .payment-details {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .total-payment-card {
+                position: relative;
+                top: 0;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hospital-name {
+                font-size: 1rem;
+            }
+            
+            .hospital-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+                font-size: 1.3rem;
+            }
+
+            .page-header {
+                padding: 1.5rem 0;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+                padding: 0 4rem;
+            }
+
+            .main-container {
+                padding: 2rem 0 8rem;
+            }
+
+            .payment-section {
+                padding: 1.2rem;
+                margin: 0 1rem;
+            }
+
+            .payment-option {
+                padding: 0.8rem 1rem;
+            }
+
+            .payment-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
+            .payment-label {
+                font-size: 1rem;
+            }
+
+            .total-payment-card {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .total-amount {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .payment-section {
+                margin: 0 0.5rem;
+                padding: 1rem;
+            }
+
+            .payment-option {
+                padding: 0.7rem 0.8rem;
+            }
+
+            .payment-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                margin-right: 0.8rem;
+            }
+
+            .payment-label {
+                font-size: 0.95rem;
+            }
+
+            .total-payment-card {
+                margin: 0 0.5rem;
+                padding: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .payment-option:focus,
+        .btn-pay:focus {
+            outline: 3px solid rgba(78, 205, 196, 0.5);
+            outline-offset: 2px;
+        }
+
+        .back-button:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo" title="Logo RS PKU Muhammadiyah Surabaya"></div>
+                    <div>
+                        <div class="hospital-name">RS PKU</div>
+                        <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
+                    </div>
+                </div>
+                <button class="hamburger d-md-none" aria-label="Menu" onclick="toggleMenu()">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBack()" aria-label="Kembali">
+            <span>←</span>
+        </button>
+        
+        <div class="container">
+            <h1 class="page-title">Metode Pembayaran</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="payment-container">
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <!-- Transfer Section -->
+                    <div class="payment-section">
+                        <h3 class="section-title">Transfer</h3>
+                        <div class="payment-options">
+                            <div class="payment-option" onclick="selectPayment('debit')" data-method="debit">
+                                <div class="payment-icon debit">💳</div>
+                                <span class="payment-label">Kartu Debit</span>
+                                <input type="radio" name="payment" value="debit" class="payment-radio">
+                            </div>
+                            
+                            <div class="payment-option" onclick="selectPayment('bank')" data-method="bank">
+                                <div class="payment-icon bank">🏦</div>
+                                <span class="payment-label">Transfer Antar Bank</span>
+                                <input type="radio" name="payment" value="bank" class="payment-radio">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- E-Wallet Section -->
+                    <div class="payment-section">
+                        <h3 class="section-title">E-Wallet</h3>
+                        <div class="payment-options">
+                            <div class="payment-option" onclick="selectPayment('gopay')" data-method="gopay">
+                                <div class="payment-icon gopay">G</div>
+                                <span class="payment-label">GoPay</span>
+                                <input type="radio" name="payment" value="gopay" class="payment-radio">
+                            </div>
+                            
+                            <div class="payment-option" onclick="selectPayment('ovo')" data-method="ovo">
+                                <div class="payment-icon ovo">O</div>
+                                <span class="payment-label">OVO</span>
+                                <input type="radio" name="payment" value="ovo" class="payment-radio">
+                            </div>
+                            
+                            <div class="payment-option" onclick="selectPayment('dana')" data-method="dana">
+                                <div class="payment-icon dana">D</div>
+                                <span class="payment-label">DANA</span>
+                                <input type="radio" name="payment" value="dana" class="payment-radio">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Section -->
+                    <div class="payment-section">
+                        <h3 class="section-title">QR Code</h3>
+                        <div class="payment-options">
+                            <div class="payment-option selected" onclick="selectPayment('qris')" data-method="qris">
+                                <div class="payment-icon qris">⬜</div>
+                                <span class="payment-label">QRIS</span>
+                                <input type="radio" name="payment" value="qris" class="payment-radio" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Payment Card -->
+                <div class="total-payment-card">
+                    <div class="total-header">Total Pembayaran</div>
+                    <div class="total-amount" id="totalAmount">RP. 100.000,00-</div>
+                    
+                    <button class="btn-pay active" id="payButton" onclick="handlePayment()">
+                        Bayar Sekarang
+                    </button>
+
+                    <div class="payment-details">
+                        <div class="detail-row">
+                            <span>Biaya Konsultasi</span>
+                            <span>RP. 75.000</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Biaya Admin</span>
+                            <span>RP. 15.000</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Biaya Aplikasi</span>
+                            <span>RP. 10.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Memproses pembayaran...</div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global state
+        let selectedPaymentMethod = 'qris'; // Default selection
+        const paymentAmount = 100000;
+
+        // Payment method data
+        const paymentMethods = {
+            debit: {
+                name: 'Kartu Debit',
+                description: 'Pembayaran menggunakan kartu debit',
+                processingTime: '1-2 menit'
+            },
+            bank: {
+                name: 'Transfer Antar Bank',
+                description: 'Transfer melalui internet banking',
+                processingTime: '5-10 menit'
+            },
+            gopay: {
+                name: 'GoPay',
+                description: 'Pembayaran melalui aplikasi Gojek',
+                processingTime: 'Instan'
+            },
+            ovo: {
+                name: 'OVO',
+                description: 'Pembayaran melalui aplikasi OVO',
+                processingTime: 'Instan'
+            },
+            dana: {
+                name: 'DANA',
+                description: 'Pembayaran melalui aplikasi DANA',
+                processingTime: 'Instan'
+            },
+            qris: {
+                name: 'QRIS',
+                description: 'Scan QR code untuk pembayaran',
+                processingTime: 'Instan'
+            }
+        };
+
+        // Select payment method
+        function selectPayment(method) {
+            // Remove previous selections
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            const selectedOption = document.querySelector(`[data-method="${method}"]`);
+            selectedOption.classList.add('selected');
+            
+            // Update radio button
+            document.querySelector(`input[value="${method}"]`).checked = true;
+            
+            // Update global state
+            selectedPaymentMethod = method;
+            
+            // Update UI
+            updatePayButton();
+            
+            console.log('Selected payment method:', method);
+        }
+
+        // Update pay button state
+        function updatePayButton() {
+            const payButton = document.getElementById('payButton');
+            
+            if (selectedPaymentMethod) {
+                payButton.classList.add('active');
+                payButton.textContent = 'Bayar Sekarang';
+            } else {
+                payButton.classList.remove('active');
+                payButton.textContent = 'Pilih Metode Pembayaran';
+            }
+        }
+
+        // Handle payment
+        function handlePayment() {
+            if (!selectedPaymentMethod) {
+                alert('Silakan pilih metode pembayaran terlebih dahulu');
+                return;
+            }
+
+            const payButton = document.getElementById('payButton');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            // Show loading
+            loadingOverlay.style.display = 'flex';
+            payButton.style.opacity = '0.5';
+            
+            // Update loading text based on payment method
+            const loadingText = document.querySelector('.loading-text');
+            const method = paymentMethods[selectedPaymentMethod];
+            loadingText.textContent = `Memproses pembayaran via ${method.name}...`;
+            
+            setTimeout(() => {
+                console.log('Payment processed with method:', selectedPaymentMethod);
+                console.log('Amount:', paymentAmount);
+                
+                loadingOverlay.style.display = 'none';
+                payButton.style.opacity = '1';
+                
+                if (selectedPaymentMethod === 'qris') {
+                    window.location.href = 'pembayaran-qr.html';
+                } else {
+                    window.location.href = 'pembayaran-qr.html';
+                }
+            }, 2000);
+        }
+
+        function goBack() {
+            window.location.href = '#cek-data-diri';
+        }
+
+        function toggleMenu() {
+            console.log('Menu toggled');
+        }
+
+        function formatCurrency(amount) {
+            return `RP. ${amount.toLocaleString('id-ID')},00-`;
+        }
+
+        // Panggil saat halaman dimuat dan saat ukuran window berubah
+        window.addEventListener('load', adjustLayoutForMobile);
+        window.addEventListener('resize', adjustLayoutForMobile);
+
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial state
+            updatePayButton();
+            
+            // Format total amount
+            document.getElementById('totalAmount').textContent = formatCurrency(paymentAmount);
+            
+            // Add keyboard support
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && selectedPaymentMethod) {
+                    handlePayment();
+                }
+                
+                // Number keys for quick selection
+                const numberKeys = ['1', '2', '3', '4', '5', '6'];
+                const methods = ['debit', 'bank', 'gopay', 'ovo', 'dana', 'qris'];
+                
+                if (numberKeys.includes(e.key)) {
+                    const index = parseInt(e.key) - 1;
+                    if (methods[index]) {
+                        selectPayment(methods[index]);
+                    }
+                }
+            });
+
+            // Add ripple effects to payment options
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(78, 205, 196, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    this.style.position = 'relative';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add ripple effect to pay button
+            document.getElementById('payButton').addEventListener('click', function(e) {
+                if (!this.classList.contains('active')) return;
+                
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.4)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.width = ripple.style.height = size + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Stagger animation for payment sections
+            const sections = document.querySelectorAll('.payment-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Animate total card
+            const totalCard = document.querySelector('.total-payment-card');
+            totalCard.style.opacity = '0';
+            totalCard.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                totalCard.style.transition = 'all 0.6s ease';
+                totalCard.style.opacity = '1';
+                totalCard.style.transform = 'translateY(0)';
+            }, 500);
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

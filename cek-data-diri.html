@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periksa Data Diri - RS PKU Muhammadiyah Surabaya</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4ECDC4;
+            --secondary-color: #45B7B8;
+            --dark-teal: #2C5F5D;
+            --light-gray: #F5F5F5;
+            --hover-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+            --info-bg: #F8F9FA;
+            --border-color: #E9ECEF;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-color);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('assets/images/logo-rs-pku.png') center/cover no-repeat;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .hospital-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hospital-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hamburger {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            color: var(--dark-teal);
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .hamburger:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Main Content */
+        .main-container {
+            min-height: calc(100vh - 200px);
+            background: white;
+            margin-top: -30px;
+            border-radius: 30px 30px 0 0;
+            padding: 3rem 0 8rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Data Cards Container */
+        .data-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Personal Data Card */
+        .personal-data-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .personal-data-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .registration-number {
+            font-size: 0.9rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+        }
+
+        .medical-record-number {
+            font-size: 0.9rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+        }
+
+        .patient-type {
+            font-size: 0.9rem;
+            color: #6C757D;
+            margin-bottom: 1rem;
+        }
+
+        .data-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .field-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+
+        .field-value {
+            padding: 12px 16px;
+            background: var(--info-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+
+        .field-value:hover {
+            border-color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .field-value.with-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .field-icon {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* Editable Fields */
+        .editable-field {
+            border: 2px dashed var(--primary-color);
+            background: white;
+            transition: all 0.3s ease;
+            outline: none;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .editable-field:focus {
+            border-style: solid;
+            background: rgba(78, 205, 196, 0.05);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .date-input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #495057;
+            font-weight: 500;
+            flex: 1;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .date-input:focus {
+            outline: none;
+        }
+
+        .detail-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .detail-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .detail-input:focus {
+            border-style: solid;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-row.has-input {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Required field indicator */
+        .required-field::after {
+            content: ' *';
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        /* Error states */
+        .field-error {
+            border-color: #dc3545 !important;
+            background: rgba(220, 53, 69, 0.05) !important;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Appointment Details Card */
+        .appointment-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .appointment-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(78, 205, 196, 0.4);
+        }
+
+        .queue-number {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .queue-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .queue-value {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .appointment-details {
+            position: relative;
+            z-index: 10;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Register Button */
+        .register-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .btn-register {
+            width: 100%;
+            max-width: 400px;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+        }
+
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .btn-register:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: all 0.1s ease;
+        }
+
+        /* Loading state */
+        .btn-register.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-register.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            margin: -12.5px 0 0 -12.5px;
+            border: 3px solid transparent;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .data-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .main-container {
+                padding: 2rem 0 8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hospital-name {
+                font-size: 1rem;
+            }
+            
+            .hospital-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+                font-size: 1.3rem;
+            }
+
+            .page-header {
+                padding: 1.5rem 0;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+                padding: 0 4rem;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+                padding: 0 2rem;
+            }
+
+            .personal-data-card,
+            .appointment-card {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .queue-value {
+                font-size: 2.5rem;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .personal-data-card,
+            .appointment-card {
+                margin: 0 0.5rem;
+                padding: 1.2rem;
+            }
+
+            .register-container {
+                padding: 1rem;
+            }
+
+            .btn-register {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+
+            .data-field {
+                margin-bottom: 1.2rem;
+            }
+
+            .field-value, .editable-field {
+                padding: 10px 12px;
+                font-size: 0.95rem;
+            }
+            
+            .detail-input {
+                min-height: 100px;
+                font-size: 0.95rem;
+                padding: 12px 14px;
+            }
+            
+            .detail-input::placeholder {
+                font-size: 0.9rem;
+                line-height: 1.3;
+            }
+            
+            .detail-row.has-input {
+                margin-bottom: 2rem;
+            }
+            
+            .date-input {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .btn-register:focus {
+            outline: 3px solid rgba(78, 205, 196, 0.5);
+            outline-offset: 2px;
+        }
+
+        .back-button:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Success animation */
+        .success-checkmark {
+            display: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .success-checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo" title="Logo RS PKU Muhammadiyah Surabaya"></div>
+                    <div>
+                        <div class="hospital-name">RS PKU</div>
+                        <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
+                    </div>
+                </div>
+                <button class="hamburger d-md-none" aria-label="Menu" onclick="toggleMenu()">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBack()" aria-label="Kembali">
+            <span>←</span>
+        </button>
+        
+        <div class="container">
+            <h1 class="page-title">Periksa Kembali Data Anda</h1>
+            <p class="page-subtitle">Sebelum Mendaftar</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="data-container">
+                <!-- Personal Data Card -->
+                <div class="personal-data-card">
+                    <div class="card-header">
+                        <div class="registration-number">No. Pendaftaran : <strong>10992A</strong></div>
+                        <div class="medical-record-number">No. Rekam Medis : <strong>SA201020ADE</strong></div>
+                        <div class="patient-type">Jenis Pasien : <strong>Umum</strong></div>
+                    </div>
+
+                    <div class="data-field">
+                        <div class="field-label required-field">Nama</div>
+                        <input 
+                            type="text" 
+                            class="field-value editable-field" 
+                            value="Rina Kartika"
+                            id="patientName"
+                            placeholder="Masukkan nama lengkap"
+                            required
+                        >
+                    </div>
+
+                    <div class="data-field">
+                        <div class="field-label required-field">Nomor Induk Kependudukan</div>
+                        <input 
+                            type="text" 
+                            class="field-value editable-field" 
+                            value="001020456679****"
+                            id="nikNumber"
+                            placeholder="Masukkan NIK 16 digit"
+                            maxlength="16"
+                            required
+                        >
+                    </div>
+
+                    <div class="data-field">
+                        <div class="field-label required-field">Tanggal Lahir</div>
+                        <div class="field-value editable-field with-icon">
+                            <span class="field-icon">📅</span>
+                            <input 
+                                type="date" 
+                                class="date-input"
+                                value="2003-10-02"
+                                id="birthDate"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="data-field">
+                        <div class="field-label required-field">No Handphone</div>
+                        <input 
+                            type="tel" 
+                            class="field-value editable-field" 
+                            value="08224836****"
+                            id="phoneNumber"
+                            placeholder="Masukkan nomor handphone"
+                            maxlength="15"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Appointment Details Card -->
+                <div class="appointment-card">
+                    <div class="queue-number">
+                        <div class="queue-label">No Antrian</div>
+                        <div class="queue-value">A1-005</div>
+                    </div>
+
+                    <div class="appointment-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Hari/Tanggal</span>
+                            <span class="detail-value">Rabu/28 Mei 2025</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Poli</span>
+                            <span class="detail-value">Penyakit Dalam</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Dokter</span>
+                            <span class="detail-value">dr. Reza Felani, Sp.PD</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Jadwal</span>
+                            <span class="detail-value">16.30 WIB - 18.30 WIB</span>
+                        </div>
+
+                        <div class="detail-row has-input">
+                            <span class="detail-label required-field">Keluhan</span>
+                            <textarea 
+                                class="detail-input" 
+                                id="complaint"
+                                placeholder="Jelaskan keluhan Anda secara detail:
+• Gejala yang dirasakan (contoh: nyeri ulu hati, demam, sakit kepala)
+• Sudah berapa lama dirasakan
+• Apakah ada gejala lain yang menyertai
+• Riwayat pengobatan yang sudah dilakukan (jika ada)"
+                                rows="4"
+                                maxlength="500"
+                                required
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Button -->
+    <div class="register-container">
+        <button class="btn-register" id="registerBtn" onclick="handleRegistration()">
+            Daftar
+        </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Memproses pendaftaran...</div>
+        <div class="success-checkmark" id="successCheckmark"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Patient data (populated from previous pages)
+        const patientData = {
+            // From login page
+            medicalRecordNumber: 'SA201020ADE',
+            name: 'Rina Kartika',
+            nik: '001020456679****',
+            birthDate: '02 Oktober 2003',
+            
+            // From previous selections  
+            doctor: 'dr. Reza Felani, Sp.PD',
+            poli: 'Penyakit Dalam',
+            appointmentDate: 'Rabu/28 Mei 2025',
+            schedule: '16.30 WIB - 18.30 WIB',
+            
+            // Auto-generated
+            registrationNumber: '10992A',
+            queueNumber: 'A1-005',
+            patientType: 'Umum',
+            
+            // User input (required)
+            phone: '', // Will be filled from form
+            complaint: '' // Will be filled from form
+        };
+
+        // Populate data from previous pages
+        function populateDataFromPreviousPages() {
+            // This would normally get data from localStorage or URL params
+            // For demo, we'll use hardcoded values but in real app:
+            
+            // From login: patientData.name, patientData.nik, etc.
+            // From doctor selection: patientData.doctor, patientData.poli
+            // From date/time selection: patientData.appointmentDate, patientData.schedule
+            
+            console.log('Data populated from previous pages:', patientData);
+        }
+
+        // Handle registration
+        function handleRegistration() {
+            const registerBtn = document.getElementById('registerBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const successCheckmark = document.getElementById('successCheckmark');
+            const loadingText = document.querySelector('.loading-text');
+            
+            // Add loading state to button
+            registerBtn.classList.add('loading');
+            
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+            
+            // Simulate registration process
+            setTimeout(() => {
+                // Hide spinner and show success
+                document.querySelector('.loading-spinner').style.display = 'none';
+                loadingText.textContent = 'Pendaftaran berhasil!';
+                successCheckmark.style.display = 'block';
+                
+                setTimeout(() => {
+                    console.log('Navigasi ke halaman metode pembayaran');
+                    console.log('Patient Data:', patientData);
+                    
+                    // Navigate to metode pembayaran
+                    window.location.href = 'metode-pembayaran.html';
+                    
+                    // Hide loading overlay
+                    loadingOverlay.style.display = 'none';
+                    registerBtn.classList.remove('loading');
+                }, 2000);
+            }, 3000);
+        }
+
+        // Back button
+        function goBack() {
+            window.location.href = 'pilih-tanggal-waktu.html';
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            console.log('Menu toggled');
+        }
+
+        // Populate data (if coming from form)
+        function populateData() {
+            // Populate from previous pages
+            populateDataFromPreviousPages();
+            
+            // Set up all editable fields with validation
+            const nameInput = document.getElementById('patientName');
+            const nikInput = document.getElementById('nikNumber');
+            const birthDateInput = document.getElementById('birthDate');
+            const phoneInput = document.getElementById('phoneNumber');
+            const complaintInput = document.getElementById('complaint');
+            
+            // Pre-fill data if available
+            if (patientData.name) nameInput.value = patientData.name;
+            if (patientData.nik) nikInput.value = patientData.nik;
+            if (patientData.phone) phoneInput.value = patientData.phone;
+            
+            // Real-time validation for name
+            nameInput.addEventListener('input', function() {
+                this.classList.remove('field-error');
+                if (this.value.length >= 2) {
+                    this.style.borderColor = 'var(--primary-color)';
+                }
+            });
+            
+            // Real-time validation for NIK
+            nikInput.addEventListener('input', function() {
+                // Allow asterisks for masked NIK but validate numbers
+                this.value = this.value.replace(/[^0-9*]/g, '');
+                this.classList.remove('field-error');
+                if (this.value.length === 16) {
+                    this.style.borderColor = 'var(--primary-color)';
+                }
+            });
+            
+            // Real-time validation for birth date
+            birthDateInput.addEventListener('change', function() {
+                this.classList.remove('field-error');
+                if (this.value) {
+                    this.style.borderColor = 'var(--primary-color)';
+                }
+            });
+            
+            // Real-time validation for phone
+            phoneInput.addEventListener('input', function() {
+                // Allow numbers, +, -, and spaces
+                this.value = this.value.replace(/[^0-9+\-\s]/g, '');
+                this.classList.remove('field-error');
+                if (this.value.length >= 10) {
+                    this.style.borderColor = 'var(--primary-color)';
+                }
+            });
+            
+            // Real-time validation for complaint
+            complaintInput.addEventListener('input', function() {
+                this.classList.remove('field-error');
+                if (this.value.length >= 10) {
+                    this.style.borderColor = 'var(--primary-color)';
+                }
+                
+                // Auto-resize textarea
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+            });
+            
+            // Character counter for complaint
+            complaintInput.addEventListener('input', function() {
+                const length = this.value.length;
+                const parent = this.parentElement;
+                let counter = parent.querySelector('.char-counter');
+                
+                if (!counter) {
+                    counter = document.createElement('div');
+                    counter.className = 'char-counter';
+                    counter.style.cssText = `
+                        font-size: 0.8rem; 
+                        color: rgba(255,255,255,0.7); 
+                        text-align: right; 
+                        margin-top: 0.5rem;
+                    `;
+                    parent.appendChild(counter);
+                }
+                
+                counter.textContent = `${length}/500 karakter`;
+                if (length < 10) {
+                    counter.style.color = '#ff6b6b';
+                } else {
+                    counter.style.color = 'rgba(255,255,255,0.7)';
+                }
+            });
+            
+            // Trigger initial validation
+            complaintInput.dispatchEvent(new Event('input'));
+        }
+
+        // Validate data before registration
+        function validateData() {
+            let isValid = true;
+            const errors = [];
+            
+            // Clear previous errors
+            document.querySelectorAll('.field-error').forEach(field => {
+                field.classList.remove('field-error');
+            });
+            
+            // Get form values
+            const name = document.getElementById('patientName').value.trim();
+            const nik = document.getElementById('nikNumber').value.trim();
+            const birthDate = document.getElementById('birthDate').value;
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const complaint = document.getElementById('complaint').value.trim();
+            
+            // Validate name
+            if (!name || name.length < 2) {
+                errors.push('Nama harus diisi minimal 2 karakter');
+                document.getElementById('patientName').classList.add('field-error');
+                isValid = false;
+            }
+            
+            // Validate NIK
+            if (!nik || nik.length !== 16 || !/^\d{16}$/.test(nik.replace(/\*/g, '0'))) {
+                errors.push('NIK harus 16 digit angka');
+                document.getElementById('nikNumber').classList.add('field-error');
+                isValid = false;
+            }
+            
+            // Validate birth date
+            if (!birthDate) {
+                errors.push('Tanggal lahir harus diisi');
+                document.getElementById('birthDate').classList.add('field-error');
+                isValid = false;
+            } else {
+                const today = new Date();
+                const birth = new Date(birthDate);
+                const age = today.getFullYear() - birth.getFullYear();
+                if (age < 0 || age > 120) {
+                    errors.push('Tanggal lahir tidak valid');
+                    document.getElementById('birthDate').classList.add('field-error');
+                    isValid = false;
+                }
+            }
+            
+            if (!phone || phone.length < 10 || !/^[0-9+\-\s]+$/.test(phone)) {
+                errors.push('Nomor handphone harus diisi minimal 10 digit');
+                document.getElementById('phoneNumber').classList.add('field-error');
+                isValid = false;
+            }
+            
+            if (!complaint || complaint.length < 10) {
+                errors.push('Keluhan harus diisi minimal 10 karakter dengan penjelasan yang jelas');
+                document.getElementById('complaint').classList.add('field-error');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                alert('Mohon lengkapi data berikut:\n\n' + errors.join('\n'));
+                document.querySelector('.field-error')?.focus();
+            } else {
+                patientData.name = name;
+                patientData.nik = nik;
+                patientData.birthDate = formatDate(birthDate);
+                patientData.phone = phone;
+                patientData.complaint = complaint;
+            }
+            
+            return isValid;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            return `${date.getDate().toString().padStart(2, '0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            populateData();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !document.getElementById('registerBtn').classList.contains('loading')) {
+                    if (validateData()) {
+                        handleRegistration();
+                    }
+                }
+            });
+
+            document.querySelectorAll('.field-value').forEach(field => {
+                field.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                
+                field.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.addEventListener('click', function(e) {
+                if (this.classList.contains('loading')) return;
+                
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.4)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.width = ripple.style.height = size + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+
+            const cards = document.querySelectorAll('.personal-data-card, .appointment-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

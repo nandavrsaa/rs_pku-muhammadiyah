@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Poli - RS PKU Muhammadiyah Surabaya</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4ECDC4;
+            --secondary-color: #45B7B8;
+            --dark-teal: #2C5F5D;
+            --light-gray: #F5F5F5;
+            --hover-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #E8F8F7 0%, #F0F9FF 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('assets/images/logo-rs-pku.png') center/cover no-repeat;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .hospital-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hospital-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            border: none;
+            background: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--dark-teal);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover span {
+            background: var(--primary-color);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Desktop Navigation - Hidden on Mobile */
+        .navbar-nav {
+            display: none;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 0 0 20px 20px;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu-content {
+            padding: 1rem 0;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: #2C3E50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .mobile-menu-item.active {
+            background: rgba(78, 205, 196, 0.1);
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-item:hover {
+            background: rgba(78, 205, 196, 0.1);
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            transform: translateX(10px);
+        }
+
+        .menu-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-text {
+            font-size: 1rem;
+        }
+
+        /* Desktop Styles - Only show navigation on larger screens */
+        @media (min-width: 1400px) {
+            .navbar-nav {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+            }
+
+            .hamburger {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: none;
+            }
+
+            .nav-link {
+                color: #2C3E50;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nav-link.active {
+                color: var(--primary-color);
+                background: rgba(78, 205, 196, 0.1);
+            }
+
+            .nav-link::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+                transition: left 0.6s ease;
+            }
+
+            .nav-link:hover::before {
+                left: 100%;
+            }
+
+            .nav-link:hover {
+                color: var(--primary-color);
+                background: rgba(78, 205, 196, 0.1);
+                text-decoration: none;
+                transform: translateY(-2px);
+            }
+        }
+
+        /* Main Content with curved background */
+        .main-container {
+            min-height: calc(100vh - 100px);
+            position: relative;
+            background: var(--primary-color);
+            overflow: hidden;
+        }
+
+        .curved-section {
+            position: relative;
+            background: white;
+            margin-top: 4rem;
+            border-radius: 40px 40px 0 0;
+            min-height: calc(100vh - 200px);
+            padding: 2rem 0 4rem;
+        }
+
+        .curved-background {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 0 0 0 50px;
+            opacity: 0.1;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-13px);
+        }
+
+        .back-button:hover {
+            background: white;
+            color: var(--secondary-color);
+            transform: translateY(-13px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #E9ECEF;
+            border-radius: 25px;
+            font-size: 1rem;
+            background: #F8F9FA;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--dark-teal);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Category Section */
+        .kategori-container {
+            margin-bottom: 3rem;
+        }
+
+        .kategori-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .kategori-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 120px;
+            border: 3px solid transparent;
+        }
+
+        .kategori-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .kategori-item.active {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .kategori-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .kategori-item.active .kategori-icon {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .kategori-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Category indicators */
+        .kategori-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #DDD;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .indicator-dot.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        /* Spesialis Section */
+        .spesialis-container {
+            background: var(--primary-color);
+            margin: 0 -15px;
+            padding: 2rem 15px;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .spesialis-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .spesialis-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            min-width: 250px;
+            max-width: 280px;
+            border: 3px solid transparent;
+        }
+
+        .spesialis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .spesialis-card.selected {
+            border-color: white;
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            background: url('assets/images/doctor-avatar.png') center/cover no-repeat;
+            background-color: #FFF3E0;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .spesialis-card.selected .doctor-avatar {
+            border-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .doctor-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-specialty {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-phone {
+            font-size: 0.8rem;
+            color: #6C757D;
+            margin-bottom: 1rem;
+        }
+
+        .selection-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #DDD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .spesialis-card.selected .selection-indicator {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Continue Button */
+        .continue-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .btn-continue {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            display: block;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-continue.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .btn-continue.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-continue.active:hover::before {
+            left: 100%;
+        }
+
+        .btn-continue.active:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hospital-name {
+                font-size: 1rem;
+            }
+            
+            .hospital-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+                font-size: 1.3rem;
+            }
+
+            .curved-section {
+                margin-top: 3rem;
+                padding: 1.5rem 0 6rem;
+            }
+
+            .kategori-grid {
+                gap: 1rem;
+            }
+
+            .kategori-item {
+                min-width: 100px;
+                padding: 1rem;
+            }
+
+            .kategori-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .spesialis-grid {
+                gap: 1rem;
+            }
+
+            .spesialis-card {
+                min-width: 200px;
+                max-width: 250px;
+                padding: 1.2rem;
+            }
+
+            .doctor-avatar {
+                width: 70px;
+                height: 70px;
+            }
+
+            .section-header {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .kategori-grid {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .kategori-item {
+                flex-direction: row;
+                width: 100%;
+                max-width: 300px;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .kategori-icon {
+                margin-right: 1rem;
+                margin-bottom: 0;
+            }
+
+            .spesialis-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .spesialis-card {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .kategori-item:focus,
+        .spesialis-card:focus,
+        .btn-continue:focus {
+            outline: 3px solid rgba(78, 205, 196, 0.5);
+            outline-offset: 2px;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo" title="Logo RS PKU Muhammadiyah Surabaya"></div>
+                    <div>
+                        <div class="hospital-name">RS PKU</div>
+                        <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation - Only visible on large screens -->
+                <nav class="navbar-nav">
+                    <a href="informasi-pendaftaran.html" class="nav-link">Informasi</a>
+                    <a href="pendaftaran-pasien-baru.html" class="nav-link">Pasien Baru</a>
+                    <a href="login-pasien.html" class="nav-link">Pasien Lama</a>
+                    <a href="pasien-bpjs.html" class="nav-link">BPJS</a>
+                </nav>
+                
+                <!-- Hamburger Menu - Only visible on mobile -->
+                <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <a href="informasi-pendaftaran.html" class="mobile-menu-item">
+                    <span class="menu-icon">📋</span>
+                    <span class="menu-text">Informasi Pendaftaran</span>
+                </a>
+                <a href="pendaftaran-pasien-baru.html" class="mobile-menu-item">
+                    <span class="menu-icon">👤</span>
+                    <span class="menu-text">Pasien Baru</span>
+                </a>
+                <a href="login-pasien.html" class="mobile-menu-item">
+                    <span class="menu-icon">🔄</span>
+                    <span class="menu-text">Pasien Lama</span>
+                </a>
+                <a href="pasien-bpjs.html" class="mobile-menu-item">
+                    <span class="menu-icon">🏥</span>
+                    <span class="menu-text">Pasien BPJS</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBack()" aria-label="Kembali">
+            <span>←</span>
+        </button>
+
+        <!-- Curved Background -->
+        <div class="curved-background"></div>
+
+        <!-- Content Section -->
+        <div class="curved-section">
+            <div class="container">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        placeholder="Cari dokter atau spesialisasi..."
+                        id="searchInput"
+                        onkeyup="handleSearch()"
+                    >
+                    <button class="search-button" onclick="performSearch()" aria-label="Cari">
+                        <span>🔍</span>
+                    </button>
+                </div>
+
+                <!-- Kategori Section -->
+                <div class="kategori-container">
+                    <h2 class="section-header">Kategori</h2>
+                    
+                    <div class="kategori-grid" id="kategoriGrid">
+                        <div class="kategori-item" data-category="anak" onclick="selectCategory('anak')">
+                            <div class="kategori-icon">👶</div>
+                            <div class="kategori-label">Anak</div>
+                        </div>
+                        
+                        <div class="kategori-item active" data-category="penyakit-dalam" onclick="selectCategory('penyakit-dalam')">
+                            <div class="kategori-icon">🫁</div>
+                            <div class="kategori-label">Penyakit Dalam</div>
+                        </div>
+                        
+                        <div class="kategori-item" data-category="gigi" onclick="selectCategory('gigi')">
+                            <div class="kategori-icon">🦷</div>
+                            <div class="kategori-label">Gigi</div>
+                        </div>
+                    </div>
+
+                    <!-- Category Indicators -->
+                    <div class="kategori-indicators">
+                        <div class="indicator-dot" onclick="selectCategory('anak')"></div>
+                        <div class="indicator-dot active" onclick="selectCategory('penyakit-dalam')"></div>
+                        <div class="indicator-dot" onclick="selectCategory('gigi')"></div>
+                    </div>
+                </div>
+
+                <!-- Spesialis Section -->
+                <div class="spesialis-container">
+                    <h2 class="section-header" style="color: white;">Spesialis</h2>
+                    
+                    <div class="spesialis-grid" id="spesialisGrid">
+                        <div class="spesialis-card" data-doctor="faizal" onclick="selectDoctor('faizal')">
+                            <div class="selection-indicator">○</div>
+                            <div class="doctor-avatar"></div>
+                            <div class="doctor-name">dr. Faizal Armando, Sp.PD</div>
+                            <div class="doctor-specialty">Dokter Spesialis Penyakit Dalam</div>
+                            <div class="doctor-phone">08546787****</div>
+                        </div>
+                        
+                        <div class="spesialis-card selected" data-doctor="reza" onclick="selectDoctor('reza')">
+                            <div class="selection-indicator">✓</div>
+                            <div class="doctor-avatar"></div>
+                            <div class="doctor-name">dr. Reza Felani, Sp.PD</div>
+                            <div class="doctor-specialty">Dokter Spesialis Penyakit Dalam</div>
+                            <div class="doctor-phone">08235467****</div>
+                        </div>
+                        
+                        <div class="spesialis-card" data-doctor="bagus" onclick="selectDoctor('bagus')">
+                            <div class="selection-indicator">○</div>
+                            <div class="doctor-avatar"></div>
+                            <div class="doctor-name">dr. Bagus Aulia Mahdi, Sp.PD</div>
+                            <div class="doctor-specialty">Dokter Spesialis Penyakit Dalam</div>
+                            <div class="doctor-phone">08224687****</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue Button -->
+    <div class="continue-container">
+        <button class="btn-continue active" id="continueBtn" onclick="handleContinue()">
+            Lanjutkan
+        </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global state
+        let selectedCategory = 'penyakit-dalam';
+        let selectedDoctor = 'reza';
+
+        // Doctor data by category
+        const doctorData = {
+            'anak': [
+                { id: 'anak1', name: 'dr. Sarah Medina, Sp.A', specialty: 'Dokter Spesialis Anak', phone: '08123456****' },
+                { id: 'anak2', name: 'dr. Ahmad Rizki, Sp.A', specialty: 'Dokter Spesialis Anak', phone: '08134567****' },
+                { id: 'anak3', name: 'dr. Linda Sari, Sp.A', specialty: 'Dokter Spesialis Anak', phone: '08145678****' }
+            ],
+            'penyakit-dalam': [
+                { id: 'faizal', name: 'dr. Faizal Armando, Sp.PD', specialty: 'Dokter Spesialis Penyakit Dalam', phone: '08546787****' },
+                { id: 'reza', name: 'dr. Reza Felani, Sp.PD', specialty: 'Dokter Spesialis Penyakit Dalam', phone: '08235467****' },
+                { id: 'bagus', name: 'dr. Bagus Aulia Mahdi, Sp.PD', specialty: 'Dokter Spesialis Penyakit Dalam', phone: '08224687****' }
+            ],
+            'gigi': [
+                { id: 'gigi1', name: 'dr. Maya Sari, Sp.KG', specialty: 'Dokter Spesialis Gigi', phone: '08156789****' },
+                { id: 'gigi2', name: 'dr. Budi Santoso, Sp.KG', specialty: 'Dokter Spesialis Gigi', phone: '08167890****' },
+                { id: 'gigi3', name: 'dr. Ani Wijaya, Sp.KG', specialty: 'Dokter Spesialis Gigi', phone: '08178901****' }
+            ]
+        };
+
+        // Toggle menu function
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Select category
+        function selectCategory(category) {
+            selectedCategory = category;
+            selectedDoctor = null; // Reset doctor selection
+            
+            // Update category UI
+            document.querySelectorAll('.kategori-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // Update indicators
+            const indicators = document.querySelectorAll('.indicator-dot');
+            indicators.forEach(dot => dot.classList.remove('active'));
+            
+            const categoryIndex = ['anak', 'penyakit-dalam', 'gigi'].indexOf(category);
+            if (categoryIndex !== -1) {
+                indicators[categoryIndex].classList.add('active');
+            }
+            
+            // Update doctors list
+            updateDoctorsList();
+            updateContinueButton();
+        }
+
+        // Select doctor
+        function selectDoctor(doctorId) {
+            selectedDoctor = doctorId;
+            
+            // Update doctor UI
+            document.querySelectorAll('.spesialis-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('.selection-indicator').textContent = '○';
+            });
+            
+            const selectedCard = document.querySelector(`[data-doctor="${doctorId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                selectedCard.querySelector('.selection-indicator').textContent = '✓';
+            }
+            
+            updateContinueButton();
+        }
+
+        // Update doctors list based on selected category
+        function updateDoctorsList() {
+            const grid = document.getElementById('spesialisGrid');
+            const doctors = doctorData[selectedCategory];
+            
+            grid.innerHTML = doctors.map(doctor => `
+                <div class="spesialis-card" data-doctor="${doctor.id}" onclick="selectDoctor('${doctor.id}')">
+                    <div class="selection-indicator">○</div>
+                    <div class="doctor-avatar"></div>
+                    <div class="doctor-name">${doctor.name}</div>
+                    <div class="doctor-specialty">${doctor.specialty}</div>
+                    <div class="doctor-phone">${doctor.phone}</div>
+                </div>
+            `).join('');
+        }
+
+        // Update continue button state
+        function updateContinueButton() {
+            const continueBtn = document.getElementById('continueBtn');
+            if (selectedDoctor) {
+                continueBtn.classList.add('active');
+            } else {
+                continueBtn.classList.remove('active');
+            }
+        }
+
+        // Handle search
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.spesialis-card');
+            
+            cards.forEach(card => {
+                const doctorName = card.querySelector('.doctor-name').textContent.toLowerCase();
+                const specialty = card.querySelector('.doctor-specialty').textContent.toLowerCase();
+                
+                if (doctorName.includes(searchTerm) || specialty.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = searchTerm ? 'none' : 'block';
+                }
+            });
+        }
+
+        // Perform search (button click)
+        function performSearch() {
+            handleSearch();
+        }
+
+        // Handle continue
+        function handleContinue() {
+            if (!selectedDoctor) {
+                alert('Silakan pilih dokter terlebih dahulu');
+                return;
+            }
+
+            const continueBtn = document.getElementById('continueBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            // Show loading
+            loadingOverlay.style.display = 'flex';
+            continueBtn.style.opacity = '0.5';
+            
+            // Simulate navigation
+            setTimeout(() => {
+                console.log('Navigasi ke halaman pilih tanggal waktu');
+                console.log('Selected Category:', selectedCategory);
+                console.log('Selected Doctor:', selectedDoctor);
+                
+                // Navigate to pilih tanggal waktu
+                window.location.href = 'pilih-tanggal-waktu.html';
+                
+                // Hide loading
+                loadingOverlay.style.display = 'none';
+                continueBtn.style.opacity = '1';
+            }, 1500);
+        }
+
+        // Back button
+        function goBack() {
+            window.location.href = 'login-pasien.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial state
+            updateContinueButton();
+            
+            // Add keyboard support
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && selectedDoctor) {
+                    handleContinue();
+                }
+            });
+
+            // Add search input events
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Add ripple effects to cards
+            document.querySelectorAll('.kategori-item, .spesialis-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(78, 205, 196, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    this.style.position = 'relative';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                const hamburger = document.querySelector('.hamburger');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

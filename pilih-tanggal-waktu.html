@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pilih Tanggal & Waktu - RS PKU Muhammadiyah Surabaya</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-color: #4ECDC4;
+            --secondary-color: #45B7B8;
+            --dark-teal: #2C5F5D;
+            --light-gray: #F5F5F5;
+            --hover-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+            --unavailable-color: #E9ECEF;
+            --selected-color: #28A745;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-color);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('assets/images/logo-rs-pku.png') center/cover no-repeat;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .hospital-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hospital-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hamburger {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            color: var(--dark-teal);
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .hamburger:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-10px);
+        }
+
+        .back-button:hover {
+            background: white;
+            color: var(--secondary-color);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            background: var(--primary-color);
+            position: relative;
+            padding-top: 2rem;
+            padding-bottom: 5rem; /* space for confirm button */
+        }
+
+        /* Doctor Info Card */
+        .doctor-info-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .doctor-info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .doctor-avatar-large {
+            width: 80px;
+            height: 80px;
+            background: url('assets/images/doctor-avatar.png') center/cover no-repeat;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 4px solid white;
+        }
+
+        .doctor-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-specialty {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-phone {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Content Cards */
+        .content-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .calendar-card,
+        .time-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-card:hover,
+        .time-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Calendar Section */
+        .calendar-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .nav-button:disabled {
+            background: var(--unavailable-color);
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .month-year {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.1);
+            padding: 8px 16px;
+            border-radius: 15px;
+        }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-header-day {
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            padding: 10px 5px;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calendar-day:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: scale(1.05);
+        }
+
+        .calendar-day.unavailable {
+            color: #ccc;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .calendar-day.unavailable:hover {
+            background: none;
+            transform: none;
+        }
+
+        .calendar-day.unavailable::after {
+            content: '✕';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.7rem;
+            color: #dc3545;
+        }
+
+        .calendar-day.selected {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .calendar-day.other-month {
+            color: #ddd;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* Time Selection */
+        .time-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .selected-date {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .selected-date-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .selected-date-month {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-top: 0.5rem;
+        }
+
+        .time-periods {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .time-period {
+            border: 2px solid #E9ECEF;
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .time-period.has-selection {
+            border-color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .period-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+
+        .time-slot {
+            padding: 12px 8px;
+            border: 2px solid #E9ECEF;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary-color);
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .time-slot.unavailable {
+            background: var(--unavailable-color);
+            color: #999;
+            cursor: not-allowed;
+            border-color: var(--unavailable-color);
+        }
+
+        .time-slot.unavailable:hover {
+            transform: none;
+            border-color: var(--unavailable-color);
+            background: var(--unavailable-color);
+        }
+
+        /* Confirmation Button */
+        .confirm-container {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            display: block;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-confirm.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .btn-confirm.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-confirm.active:hover::before {
+            left: 100%;
+        }
+
+        .btn-confirm.active:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hospital-name {
+                font-size: 1rem;
+            }
+
+            .hospital-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+                font-size: 1.3rem;
+            }
+
+            .main-container {
+                padding-top: 1rem;
+                padding-bottom: 5rem;
+            }
+
+            .content-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .calendar-card,
+            .time-card {
+                padding: 1.5rem;
+            }
+
+            .doctor-info-card {
+                padding: 1.2rem;
+            }
+
+            .doctor-avatar-large {
+                width: 70px;
+                height: 70px;
+            }
+
+            .doctor-name {
+                font-size: 1.1rem;
+            }
+
+            .selected-date-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .calendar-card,
+            .time-card {
+                padding: 1rem;
+                margin: 0 0.5rem;
+            }
+
+            .calendar-grid {
+                gap: 4px;
+            }
+
+            .calendar-day {
+                font-size: 0.9rem;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .time-slot {
+                padding: 10px 6px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .calendar-day:focus,
+        .time-slot:focus,
+        .btn-confirm:focus {
+            outline: 3px solid rgba(78, 205, 196, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo" title="Logo RS PKU Muhammadiyah Surabaya"></div>
+                    <div>
+                        <div class="hospital-name">RS PKU</div>
+                        <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
+                    </div>
+                </div>
+                <button class="hamburger d-md-none" aria-label="Menu" onclick="toggleMenu()">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" tabindex="0">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBack()" aria-label="Kembali">
+            <span>←</span>
+        </button>
+
+        <div class="container">
+            <!-- Doctor Info -->
+            <div class="doctor-info-card">
+                <div class="doctor-avatar-large"></div>
+                <div class="doctor-name">dr. Reza Felani, Sp.PD</div>
+                <div class="doctor-specialty">Spesialis Penyakit Dalam</div>
+                <div class="doctor-phone">08235467****</div>
+            </div>
+
+            <!-- Calendar and Time Selection -->
+            <div class="content-container">
+                <!-- Calendar Card -->
+                <div class="calendar-card">
+                    <h3 class="calendar-header">Pilih Tanggal Kunjungan</h3>
+
+                    <!-- Calendar Navigation -->
+                    <div class="calendar-nav">
+                        <button class="nav-button" onclick="previousMonth()" id="prevMonth">‹</button>
+                        <div class="month-year" id="monthYear">Mei 2025</div>
+                        <button class="nav-button" onclick="nextMonth()" id="nextMonth">›</button>
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <!-- Time Selection Card -->
+                <div class="time-card">
+                    <h3 class="time-header">Pilih Waktu Kunjungan</h3>
+
+                    <!-- Selected Date Display -->
+                    <div class="selected-date" id="selectedDateDisplay">
+                        <div class="selected-date-number" id="selectedDateNumber">28</div>
+                        <div class="selected-date-month" id="selectedDateMonth">Mei</div>
+                    </div>
+
+                    <!-- Time Periods -->
+                    <div class="time-periods">
+                        <!-- Morning Period -->
+                        <div class="time-period" id="morningPeriod">
+                            <div class="period-title">Pagi</div>
+                            <div class="time-slots" id="morningSlots">
+                                <div class="time-slot" onclick="selectTimeSlot('07:30', 'morning')">07.30</div>
+                                <div class="time-slot" onclick="selectTimeSlot('08:30', 'morning')">08.30</div>
+                                <div class="time-slot" onclick="selectTimeSlot('10:00', 'morning')">10.00</div>
+                            </div>
+                        </div>
+
+                        <!-- Afternoon Period -->
+                        <div class="time-period has-selection" id="afternoonPeriod">
+                            <div class="period-title">Sore</div>
+                            <div class="time-slots" id="afternoonSlots">
+                                <div class="time-slot" onclick="selectTimeSlot('15:00', 'afternoon')">15.00</div>
+                                <div class="time-slot selected" onclick="selectTimeSlot('16:30', 'afternoon')">16.30</div>
+                                <div class="time-slot" onclick="selectTimeSlot('17:30', 'afternoon')">17.30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Button -->
+    <div class="confirm-container">
+        <button class="btn-confirm active" id="confirmBtn" onclick="handleConfirmation()">
+            Konfirmasi
+        </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global state
+        let currentDate = new Date();
+        let selectedDate = new Date(2025, 4, 28); // May 28, 2025
+        let selectedTime = '16:30';
+        let selectedPeriod = 'afternoon';
+
+        // Month names in Indonesian
+        const monthNames = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        const dayNames = ['S', 'S', 'R', 'K', 'J', 'S', 'M'];
+
+        // Unavailable dates (example data)
+        const unavailableDates = ['2025-05-05', '2025-05-14', '2025-05-17', '2025-05-26'];
+
+        // Generate calendar
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            // Update month/year display
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Add day headers
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-header-day';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+
+            // Add previous month's trailing days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = daysInPrevMonth - i;
+                grid.appendChild(day);
+            }
+
+            // Add current month's days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(
+                    2,
+                    '0'
+                )}`;
+                const dayDate = new Date(year, month, day);
+                const today = new Date();
+
+                // Check if day is today
+                if (dayDate.toDateString() === today.toDateString()) {
+                    dayElement.classList.add('today');
+                }
+
+                // Check if day is selected
+                if (selectedDate && dayDate.toDateString() === selectedDate.toDateString()) {
+                    dayElement.classList.add('selected');
+                }
+
+                // Check if day is in the past
+                const todayClear = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                if (dayDate < todayClear) {
+                    dayElement.classList.add('unavailable');
+                }
+                // Check if day is in unavailable list
+                else if (unavailableDates.includes(dateString)) {
+                    dayElement.classList.add('unavailable');
+                }
+                // Day is available for selection
+                else {
+                    dayElement.onclick = () => selectDate(dayDate);
+                }
+
+                grid.appendChild(dayElement);
+            }
+
+            // Add next month's leading days
+            const totalCells = grid.children.length - 7; // Subtract day headers
+            const remainingCells = 42 - totalCells; // 6 rows × 7 days = 42
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day other-month';
+                dayElement.textContent = day;
+                grid.appendChild(dayElement);
+            }
+        }
+
+        // Select date
+        function selectDate(date) {
+            selectedDate = date;
+            generateCalendar();
+            updateSelectedDateDisplay();
+            updateConfirmButton();
+        }
+
+        // Update selected date display
+        function updateSelectedDateDisplay() {
+            if (selectedDate) {
+                document.getElementById('selectedDateNumber').textContent = selectedDate.getDate();
+                document.getElementById('selectedDateMonth').textContent = monthNames[selectedDate.getMonth()];
+            }
+        }
+
+        // Previous month
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        }
+
+        // Next month
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        }
+
+        // Select time slot
+        function selectTimeSlot(time, period) {
+            // Remove previous selections
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            document.querySelectorAll('.time-period').forEach(periodEl => {
+                periodEl.classList.remove('has-selection');
+            });
+
+            // Add new selection
+            event.target.classList.add('selected');
+            document.getElementById(period + 'Period').classList.add('has-selection');
+
+            selectedTime = time;
+            selectedPeriod = period;
+            updateConfirmButton();
+        }
+
+        // Update confirm button state
+        function updateConfirmButton() {
+            const confirmBtn = document.getElementById('confirmBtn');
+            if (selectedDate && selectedTime) {
+                confirmBtn.classList.add('active');
+            } else {
+                confirmBtn.classList.remove('active');
+            }
+        }
+
+        // Handle confirmation
+        function handleConfirmation() {
+            if (!selectedDate || !selectedTime) {
+                alert('Silakan pilih tanggal dan waktu terlebih dahulu');
+                return;
+            }
+
+            const confirmBtn = document.getElementById('confirmBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            // Show loading
+            loadingOverlay.style.display = 'flex';
+            confirmBtn.style.opacity = '0.5';
+
+            // Simulate navigation
+            setTimeout(() => {
+                console.log('Navigasi ke halaman cek data diri');
+                console.log('Selected Date:', selectedDate.toDateString());
+                console.log('Selected Time:', selectedTime);
+                console.log('Selected Period:', selectedPeriod);
+
+                // Navigate to cek data diri
+                window.location.href = 'cek-data-diri.html';
+
+                // Hide loading
+                loadingOverlay.style.display = 'none';
+                confirmBtn.style.opacity = '1';
+            }, 1500);
+        }
+
+        // Back button
+        function goBack() {
+            window.location.href = 'pilih-poli.html';
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            console.log('Menu toggled');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set May 2025 as default month
+            currentDate = new Date(2025, 4, 1); // May 1, 2025
+
+            // Generate initial calendar
+            generateCalendar();
+            updateSelectedDateDisplay();
+            updateConfirmButton();
+
+            // Add keyboard support
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && selectedDate && selectedTime) {
+                    handleConfirmation();
+                }
+            });
+
+            // Add ripple effects to calendar days and time slots
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('calendar-day') || e.target.classList.contains('time-slot')) {
+                    if (e.target.classList.contains('unavailable') || e.target.classList.contains('other-month')) {
+                        return;
+                    }
+
+                    const ripple = document.createElement('span');
+                    const rect = e.target.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(78, 205, 196, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.pointerEvents = 'none';
+
+                    e.target.style.position = 'relative';
+                    e.target.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
