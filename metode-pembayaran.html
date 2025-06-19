@@ -256,7 +256,7 @@
             justify-content: center;
             font-weight: 700;
             font-size: 0.9rem;
-            transform: translateY(17px);
+            transform: translateY(19px);
         }
 
         /* Payment Icons */
@@ -415,6 +415,11 @@
                 top: 0;
                 order: -1;
             }
+            .payment-option.selected::after {
+                content: '✓';
+                position: absolute;
+                transform: translateY(19px);
+            }
         }
 
         @media (max-width: 768px) {
@@ -437,6 +442,7 @@
                 top: 15px;
                 left: 15px;
                 font-size: 1.3rem;
+                transform: translateY(9px);
             }
 
             .page-header {
@@ -459,6 +465,12 @@
 
             .payment-option {
                 padding: 0.8rem 1rem;
+            }
+
+            .payment-option.selected::after {
+                content: '✓';
+                position: absolute;
+                transform: translateY(11px);
             }
 
             .payment-icon {
