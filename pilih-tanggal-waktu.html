@@ -173,6 +173,7 @@
             display: flex;
             gap: 2rem;
             align-items: flex-start;
+            justify-content: center; /* Center alignment */
         }
 
         .calendar-card,
@@ -471,7 +472,7 @@
             box-shadow: var(--hover-shadow);
         }
 
-        /* Mobile Responsive */
+        /* Mobile Responsive - Modifikasi bagian @media (max-width: 768px) */
         @media (max-width: 768px) {
             .hospital-name {
                 font-size: 1rem;
@@ -502,15 +503,22 @@
             .content-container {
                 flex-direction: column;
                 gap: 1.5rem;
+                align-items: center; /* Center alignment untuk mobile */
+                justify-content: center;
             }
 
             .calendar-card,
             .time-card {
                 padding: 1.5rem;
+                width: 100%; /* Full width */
+                max-width: 500px; /* Maksimal width untuk tidak terlalu lebar */
+                margin: 0 auto; /* Center alignment */
             }
 
             .doctor-info-card {
                 padding: 1.2rem;
+                max-width: 500px; /* Konsisten dengan card lainnya */
+                margin: 0 auto 2rem auto; /* Center alignment */
             }
 
             .doctor-avatar-large {
@@ -525,13 +533,44 @@
             .selected-date-number {
                 font-size: 2.5rem;
             }
+
+            /* Center align headers di mobile */
+            .calendar-header,
+            .time-header {
+                text-align: center;
+            }
+
+            /* Center align selected date display */
+            .selected-date {
+                text-align: center;
+                margin: 0 auto 2rem auto;
+            }
+
+            /* Center align time periods */
+            .time-periods {
+                align-items: center;
+            }
+
+            .time-period {
+                width: 100%;
+                max-width: 450px; /* Maksimal width */
+                margin: 0 auto; /* Center alignment */
+            }
         }
 
+        /* Modifikasi bagian @media (max-width: 576px) */
         @media (max-width: 576px) {
             .calendar-card,
             .time-card {
                 padding: 1rem;
-                margin: 0 0.5rem;
+                margin: 0 1rem; /* Margin samping untuk spacing */
+                max-width: calc(100% - 2rem); /* Adjust untuk margin */
+            }
+
+            .doctor-info-card {
+                margin: 0 1rem 2rem 1rem; /* Konsisten dengan card lainnya */
+                max-width: calc(100% - 2rem);
+                padding: 1rem;
             }
 
             .calendar-grid {
@@ -540,25 +579,161 @@
 
             .calendar-day {
                 font-size: 0.9rem;
+                min-height: 35px; /* Minimum height untuk touch target */
             }
 
             .time-slots {
                 grid-template-columns: repeat(3, 1fr);
+                justify-items: center; /* Center time slots */
+                gap: 8px;
             }
 
             .time-slot {
                 padding: 10px 6px;
                 font-size: 0.8rem;
+                width: 100%; /* Full width dalam grid */
+                max-width: 80px; /* Maksimal width untuk konsistensi */
+                min-height: 40px; /* Minimum height untuk touch target */
+            }
+
+            .time-period {
+                max-width: 400px; /* Sesuaikan untuk mobile kecil */
+            }
+
+            .content-container {
+                gap: 1rem;
             }
         }
 
-        /* Focus states for accessibility */
-        .calendar-day:focus,
-        .time-slot:focus,
-        .btn-confirm:focus {
-            outline: 3px solid rgba(78, 205, 196, 0.5);
-            outline-offset: 2px;
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .calendar-card,
+            .time-card {
+                margin: 0 0.5rem;
+                max-width: calc(100% - 1rem);
+                padding: 0.8rem;
+            }
+
+            .doctor-info-card {
+                margin: 0 0.5rem 1.5rem 0.5rem;
+                max-width: calc(100% - 1rem);
+                padding: 1rem;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk layar sangat kecil */
+                gap: 8px;
+            }
+
+            .time-slot {
+                max-width: none; /* Remove max-width constraint */
+                min-height: 45px; /* Increase minimum height */
+                font-size: 0.85rem;
+            }
+
+            .calendar-grid {
+                gap: 2px;
+            }
+
+            .calendar-day {
+                font-size: 0.8rem;
+                min-height: 32px;
+            }
+
+            .time-period {
+                max-width: 350px;
+                padding: 1rem;
+            }
+
+            .selected-date-number {
+                font-size: 2rem;
+            }
+
+            .calendar-header,
+            .time-header {
+                font-size: 1.2rem;
+            }
         }
+
+        /* Landscape orientation untuk mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .content-container {
+                flex-direction: row; /* Kembali ke row di landscape */
+                gap: 1rem;
+                justify-content: center;
+                align-items: flex-start;
+            }
+
+            .calendar-card,
+            .time-card {
+                flex: 1;
+                max-width: 350px; /* Batasi width di landscape */
+                margin: 0 0.5rem;
+            }
+
+            .main-container {
+                padding-top: 0.5rem;
+                padding-bottom: 4rem;
+            }
+
+            .doctor-info-card {
+                max-width: 100%;
+                margin: 0 1rem 1rem 1rem;
+            }
+        }
+
+        /* Utility classes untuk center alignment */
+        .text-center-mobile {
+            text-align: center;
+        }
+
+        @media (min-width: 769px) {
+            .text-center-mobile {
+                text-align: left;
+            }
+        }
+
+        /* Improve touch targets untuk mobile */
+        @media (max-width: 768px) {
+            .nav-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
+            .calendar-day {
+                min-height: 40px;
+                font-size: 0.9rem;
+            }
+
+            .time-slot {
+                min-height: 45px;
+                padding: 12px 8px;
+            }
+        }
+
+        /* Smooth transitions untuk semua elemen */
+        .calendar-card,
+        .time-card,
+        .doctor-info-card {
+            transition: all 0.3s ease;
+        }
+
+        /* Ensure proper spacing di semua ukuran layar */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
 
         /* Loading animation */
         .loading-overlay {
