@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Pasien Lama - RS PKU Muhammadiyah Surabaya</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* CSS Variables */
         :root {
@@ -22,7 +22,7 @@
         }
 
         body { 
-            font-family: 'Poppins', sans-serif; 
+            font-family: 'inter', sans-serif; 
             background: var(--light); 
             min-height: 100vh; 
             margin: 0; 
@@ -161,33 +161,6 @@
             font-size: 1.2rem; 
             width: 24px; 
             text-align: center; 
-        }
-        
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            background: #4ecdc4;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-            transform: translateY(-13px);
-        }
-
-        .back-button:hover {
-            background: #4ecdc4;
-            color: white;
-            transform: translateY(-13px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
         }
         
         /* Main Content Styles */
@@ -480,15 +453,6 @@
                 width: 50px; 
                 height: 50px; 
             }
-            .back-button { 
-                width: 45px; 
-                height: 45px; 
-                top: 85px; 
-                left: 15px; 
-                font-size: 1.3rem; 
-                /* Pastikan tetap tidak bergerak di mobile */
-                transform: none;
-            }
             .main-container { 
                 padding: 1rem 0; 
             }
@@ -560,7 +524,6 @@
     </style>
 </head>
 <body>
-    <button class="back-button" onclick="goBack()" title="Kembali ke halaman sebelumnya">←</button>
     
     <div class="header">
         <div class="container">
@@ -576,8 +539,8 @@
                 <nav class="navbar-nav">
                     <a href="informasi-pendaftaran.html" class="nav-link">Informasi</a>
                     <a href="pendaftaran-pasien-baru.html" class="nav-link">Pasien Baru</a>
-                    <a href="login-pasien.html" class="nav-link active">Pasien Lama</a>
-                    <a href="pasien-bpjs.html" class="nav-link">BPJS</a>
+                    <a href="login-pasien-lama.html" class="nav-link active">Pasien Lama</a>
+                    <a href="https://play.google.com/store/apps/details?id=app.bpjs.mobile&hl=id" class="nav-link">BPJS</a>
                 </nav>
                 
                 <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
@@ -589,16 +552,16 @@
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-content">
                 <a href="informasi-pendaftaran.html" class="mobile-menu-item">
-                    <span class="menu-icon">📋</span><span class="menu-text">Informasi Pendaftaran</span>
+                    <span class="menu-icon"></span><span class="menu-text">Informasi Pendaftaran</span>
                 </a>
                 <a href="pendaftaran-pasien-baru.html" class="mobile-menu-item">
-                    <span class="menu-icon">👤</span><span class="menu-text">Pasien Baru</span>
+                    <span class="menu-icon"></span><span class="menu-text">Pasien Baru</span>
                 </a>
-                <a href="login-pasien.html" class="mobile-menu-item active">
-                    <span class="menu-icon">🔄</span><span class="menu-text">Pasien Lama</span>
+                <a href="login-pasien-lama.html" class="mobile-menu-item active">
+                    <span class="menu-icon"></span><span class="menu-text">Pasien Lama</span>
                 </a>
-                <a href="pasien-bpjs.html" class="mobile-menu-item">
-                    <span class="menu-icon">🏥</span><span class="menu-text">Pasien BPJS</span>
+                <a href="https://play.google.com/store/apps/details?id=app.bpjs.mobile&hl=id" class="mobile-menu-item">
+                    <span class="menu-icon"></span><span class="menu-text">Pasien BPJS</span>
                 </a>
             </div>
         </div>
@@ -713,14 +676,6 @@
                 loginBtn.classList.remove('loading');
                 loginBtn.style.pointerEvents = 'auto';
             }, 2000);
-        }
-
-        function goBack() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = 'index.html';
-            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
