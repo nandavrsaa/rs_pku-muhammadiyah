@@ -113,13 +113,14 @@
             text-align: left;
             position: relative;
             z-index: 10;
+            transform: translateY(-13px);
         }
 
         .download-button {
             position: absolute;
             top: 50%;
             right: 20px;
-            transform: translateY(-50%);
+            transform: translateY(-80%);
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -138,7 +139,7 @@
 
         .download-button:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.05);
+            transform: translateY(-80%) scale(1.05);
             box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
             color: white;
             text-decoration: none;
@@ -654,9 +655,7 @@
                         <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
                     </div>
                 </div>
-                <button class="hamburger d-md-none" aria-label="Menu" onclick="toggleMenu()">
-                    <span>☰</span>
-                </button>
+                
             </div>
         </div>
     </div>
@@ -770,93 +769,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Ticket data
-        const ticketData = {
-            queueNumber: 'A1-005',
-            patientName: 'Rina Kartika',
-            clinic: 'Poli Penyakit Dalam',
-            doctor: 'dr. Reza Felani, Sp.PD',
-            session: 'Pengingat',
-            date: '28 Mei 2025',
-            time: '16.30 WIB',
-            registrationCode: '10992A-28052025-1630',
-            hospitalName: 'RS PKU Muhammadiyah Surabaya',
-            hospitalAddress: 'JL. KH. Mas Mansyur No. 180 - 182',
-            instructions: 'Diharapkan pasien datang 15 menit sebelum jam pelayanan'
-        };
-
-        // Download ticket
-        function downloadTicket(event) {
-            event.preventDefault();
-            
-            const button = event.target.closest('.download-button');
-            const originalText = button.innerHTML;
-            
-            // Show loading state
-            button.innerHTML = '<span class="download-loading">⟳</span> Downloading...';
-            button.style.pointerEvents = 'none';
-            
-            // Simulate download process
-            setTimeout(() => {
-                // Generate ticket content
-                const ticketContent = generateTicketContent();
-                
-                // Create downloadable file
-                const blob = new Blob([ticketContent], { type: 'text/plain;charset=utf-8' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `tiket-antrian-${ticketData.queueNumber}-${Date.now()}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                
-                // For PDF download simulation
-                console.log('Ticket downloaded as text file');
-            
-                
-                // Restore button
-                button.innerHTML = originalText;
-                button.style.pointerEvents = 'auto';
-                
-                // Show success feedback
-                showDownloadSuccess();
-            }, 2000);
-        }
-
-        // Show download success
-        function showDownloadSuccess() {
-            const feedback = document.createElement('div');
-            feedback.innerHTML = `
-                <div style="
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: #28a745;
-                    color: white;
-                    padding: 1rem 2rem;
-                    border-radius: 25px;
-                    font-weight: 600;
-                    z-index: 10000;
-                    animation: successPulse 2s ease;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                ">
-                    <span style="font-size: 1.2rem;">✓</span>
-                    Tiket berhasil didownload!
-                </div>
-            `;
-            
-            document.body.appendChild(feedback);
-            
-            setTimeout(() => {
-                document.body.removeChild(feedback);
-            }, 2000);
-        }
-
         // Get directions
         function getDirections(event) {
             event.preventDefault();
@@ -870,7 +782,7 @@
             // Show feedback
             const link = event.target;
             const originalText = link.textContent;
-            link.textContent = 'Membuka maps...';
+            link.textContent = 'https://maps.app.goo.gl/hN3MPDMHYQq7VpRx9';
             
             setTimeout(() => {
                 link.textContent = originalText;
