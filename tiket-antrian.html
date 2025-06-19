@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran QR Code - RS PKU Muhammadiyah Surabaya</title>
+    <title>Tiket Antrian - RS PKU Muhammadiyah Surabaya</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -86,7 +86,6 @@
             background: var(--primary-color);
             color: white;
             padding: 2rem 0;
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -107,39 +106,43 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            transform: translateY(-10px)
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-        }
-
         .page-title {
             font-size: 1.8rem;
             font-weight: 700;
             margin: 0;
+            text-align: left;
             position: relative;
             z-index: 10;
-            transform: translateY(-13px)
+            transform: translateY(-13px);
+        }
+
+        .download-button {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-80%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-80%) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
         }
 
         /* Main Content */
@@ -148,306 +151,326 @@
             background: white;
             margin-top: -30px;
             border-radius: 30px 30px 0 0;
-            padding: 3rem 0 2rem;
+            padding: 3rem 0 8rem;
             position: relative;
             z-index: 5;
         }
 
-        /* Payment Instruction */
-        .payment-instruction {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .instruction-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2C3E50;
-            margin-bottom: 0.5rem;
-        }
-
-        .instruction-subtext {
-            font-size: 1rem;
-            color: #6C757D;
-        }
-
-        /* QR Code Container */
-        .qr-container {
+        /* Ticket Container */
+        .ticket-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .qr-code-wrapper {
+        .ticket {
             background: white;
-            padding: 2rem;
-            border-radius: 25px;
+            border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 3px solid #F1F3F4;
-            transition: all 0.3s ease;
+            border: 2px solid #F1F3F4;
+            max-width: 500px;
+            width: 100%;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .qr-code-wrapper:hover {
+        .ticket:hover {
             transform: translateY(-5px);
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            border-color: var(--primary-color);
         }
 
-        .qr-code-wrapper::before {
+        /* Ticket perforations */
+        .ticket::before,
+        .ticket::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transition: left 0.6s ease;
-        }
-
-        .qr-code-wrapper:hover::before {
-            left: 0;
-        }
-
-        .qr-code {
-            width: 250px;
-            height: 250px;
-            background: url('assets/images/qr-code-payment.png') center/cover no-repeat;
-            background-color: #f8f9fa;
-            border: 2px solid #E9ECEF;
-            border-radius: 15px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-
-        /* QR Code Pattern (if no image) */
-        .qr-pattern {
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(45deg, #000 25%, transparent 25%), 
-                linear-gradient(-45deg, #000 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #000 75%), 
-                linear-gradient(-45deg, transparent 75%, #000 75%);
+            bottom: 0;
+            width: 20px;
+            background-image: radial-gradient(circle, white 40%, transparent 40%);
             background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-            opacity: 0.8;
-            border-radius: 10px;
+            background-repeat: repeat-y;
+            z-index: 2;
         }
 
-        .qr-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: var(--primary-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .ticket::before {
+            left: -10px;
+        }
+
+        .ticket::after {
+            right: -10px;
+        }
+
+        /* Ticket Header */
+        .ticket-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-            border: 4px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        /* Timer */
-        .payment-timer {
+            padding: 1.5rem 2rem;
             text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(78, 205, 196, 0.1);
-            border-radius: 15px;
-            border-left: 4px solid var(--primary-color);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            position: relative;
+            z-index: 3;
         }
 
-        .timer-text {
-            font-size: 0.95rem;
-            color: #2C3E50;
+        .ticket-title {
+            font-size: 1.3rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
-        .timer-countdown {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            font-family: 'Courier New', monospace;
+        .ticket-instruction {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
         }
 
-        /* Download Button */
-        .download-container {
+        /* Ticket Body */
+        .ticket-body {
+            padding: 2rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Divider */
+        .ticket-divider {
+            border-top: 2px dashed #E9ECEF;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .ticket-divider::before,
+        .ticket-divider::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #E9ECEF;
+        }
+
+        .ticket-divider::before {
+            left: -8px;
+        }
+
+        .ticket-divider::after {
+            right: -8px;
+        }
+
+        /* Queue Number Section */
+        .queue-section {
             text-align: center;
             margin-bottom: 2rem;
         }
 
-        .btn-download {
-            padding: 12px 30px;
+        .queue-label {
             font-size: 1rem;
-            font-weight: 600;
-            border: 2px solid #6C757D;
-            border-radius: 50px;
-            background: white;
             color: #6C757D;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
-        .btn-download::before {
+        .queue-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+            text-shadow: 0 2px 10px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Patient Info */
+        .patient-info {
+            margin-bottom: 2rem;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #2C3E50;
+            min-width: 80px;
+            margin-right: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .info-value {
+            color: #495057;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .info-value.highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Hospital Info */
+        .hospital-info {
+            background: rgba(78, 205, 196, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .hospital-info .info-row {
+            margin-bottom: 0.5rem;
+        }
+
+        .hospital-info .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .directions-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .directions-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Appointment Details */
+        .appointment-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(78, 205, 196, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Barcode */
+        .barcode-section {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .barcode-label {
+            font-size: 0.9rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .barcode {
+            width: 200px;
+            height: 60px;
+            background: linear-gradient(
+                90deg,
+                #000 0px, #000 2px,
+                transparent 2px, transparent 4px,
+                #000 4px, #000 6px,
+                transparent 6px, transparent 8px,
+                #000 8px, #000 10px,
+                transparent 10px, transparent 12px,
+                #000 12px, #000 16px,
+                transparent 16px, transparent 18px,
+                #000 18px, #000 20px,
+                transparent 20px, transparent 24px,
+                #000 24px, #000 26px,
+                transparent 26px, transparent 28px,
+                #000 28px, #000 32px
+            );
+            background-size: 32px 100%;
+            background-repeat: repeat-x;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        /* Back Button */
+        .back-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .btn-back {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            background: white;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .btn-back::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(108, 117, 125, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
             transition: left 0.6s ease;
         }
 
-        .btn-download:hover::before {
+        .btn-back:hover::before {
             left: 100%;
         }
 
-        .btn-download:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-decoration: none;
-        }
-
-        .download-icon {
-            font-size: 1.1rem;
-        }
-
-        /* Auto Redirect Notice */
-        .auto-redirect {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--primary-color);
-            font-style: italic;
-        }
-
-        /* Total Payment Footer */
-        .payment-footer {
+        .btn-back:hover {
             background: var(--primary-color);
             color: white;
-            padding: 2rem 0;
-            margin-top: 2rem;
-            text-align: center;
-            border-radius: 30px 30px 0 0;
-            position: relative;
-            overflow: hidden;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--hover-shadow);
         }
 
-        .payment-footer::before {
-            content: '';
+        /* Success Animation */
+        .success-badge {
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        .footer-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .total-label {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .total-amount {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Payment Status */
-        .payment-status {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            flex-direction: column;
-        }
-
-        .status-icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
             animation: bounceIn 0.6s ease;
-        }
-
-        .status-icon.success {
-            background: #28a745;
-            color: white;
-        }
-
-        .status-icon.waiting {
-            background: var(--primary-color);
-            color: white;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .status-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2C3E50;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .status-subtext {
-            font-size: 1rem;
-            color: #6C757D;
-            text-align: center;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
 
         @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
 
@@ -466,114 +489,140 @@
                 height: 50px;
             }
 
-            .back-button {
-                width: 45px;
-                height: 45px;
-                top: 15px;
-                left: 15px;
-                font-size: 1.3rem;
-            }
-
             .page-header {
                 padding: 1.5rem 0;
             }
 
             .page-title {
                 font-size: 1.5rem;
-                padding: 0 4rem;
+                padding-right: 120px;
+            }
+
+            .download-button {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+                right: 15px;
             }
 
             .main-container {
-                padding: 2rem 0 1rem;
+                padding: 2rem 0 8rem;
+            }
+
+            .ticket {
                 margin: 0 1rem;
-                border-radius: 20px 20px 0 0;
             }
 
-            .instruction-text {
-                font-size: 1.1rem;
-            }
-
-            .instruction-subtext {
-                font-size: 0.9rem;
-            }
-
-            .qr-code {
-                width: 200px;
-                height: 200px;
-            }
-
-            .qr-code-wrapper {
+            .ticket-body {
                 padding: 1.5rem;
             }
 
-            .qr-logo {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
+            .queue-number {
+                font-size: 2.8rem;
             }
 
-            .timer-countdown {
-                font-size: 1.3rem;
+            .appointment-details {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
             }
 
-            .total-amount {
-                font-size: 2rem;
+            .info-label {
+                min-width: 70px;
+                font-size: 0.9rem;
+            }
+
+            .info-value {
+                font-size: 0.9rem;
+            }
+
+            .ticket-title {
+                font-size: 1.1rem;
+            }
+
+            .ticket-instruction {
+                font-size: 0.85rem;
             }
         }
 
         @media (max-width: 576px) {
-            .main-container {
+            .ticket {
                 margin: 0 0.5rem;
-                padding: 1.5rem 0 1rem;
             }
 
-            .qr-code {
-                width: 180px;
-                height: 180px;
-            }
-
-            .qr-code-wrapper {
+            .ticket-body {
                 padding: 1.2rem;
             }
 
-            .instruction-text {
-                font-size: 1rem;
-            }
-
-            .btn-download {
-                padding: 10px 25px;
-                font-size: 0.9rem;
-            }
-
-            .payment-timer {
-                margin-bottom: 1.5rem;
-                padding: 0.8rem;
-            }
-
-            .timer-countdown {
-                font-size: 1.2rem;
-            }
-
-            .total-amount {
-                font-size: 1.8rem;
-            }
-
-            .status-icon {
-                width: 80px;
-                height: 80px;
+            .queue-number {
                 font-size: 2.5rem;
             }
 
-            .status-text {
-                font-size: 1.1rem;
+            .page-title {
+                font-size: 1.3rem;
+                padding-right: 100px;
+                transform: translateY(-13px);
+            }
+
+            .download-button {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+                transform: translateY(-32px);
+            }
+
+            .back-container {
+                padding: 1rem;
+            }
+
+            .btn-back {
+                font-size: 1rem;
+                padding: 12px 18px;
+            }
+
+            .barcode {
+                width: 150px;
+                height: 50px;
+            }
+
+            .success-badge {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                top: 15px;
+                right: 15px;
             }
         }
 
         /* Focus states for accessibility */
-        .btn-download:focus,
-        .back-button:focus {
+        .btn-back:focus,
+        .download-button:focus {
             outline: 3px solid rgba(78, 205, 196, 0.5);
             outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .header,
+            .page-header,
+            .back-container {
+                display: none;
+            }
+
+            .main-container {
+                background: white;
+                margin: 0;
+                padding: 1rem;
+                border-radius: 0;
+            }
+
+            .ticket {
+                box-shadow: none;
+                border: 2px solid #000;
+                max-width: none;
+                width: 100%;
+            }
+
+            .success-badge {
+                display: none;
+            }
         }
 
         /* Smooth scrolling */
@@ -581,17 +630,16 @@
             scroll-behavior: smooth;
         }
 
-        /* Loading animation for QR */
-        .qr-loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: spin 1s linear infinite;
+        /* Loading animation */
+        .ticket-loading {
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .ticket-loaded {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
         }
     </style>
 </head>
@@ -607,227 +655,149 @@
                         <div class="hospital-subtitle">MUHAMMADIYAH SURABAYA</div>
                     </div>
                 </div>
-                <button class="hamburger d-md-none" aria-label="Menu" onclick="toggleMenu()">
-                    <span>☰</span>
-                </button>
+                
             </div>
         </div>
     </div>
 
     <!-- Page Header -->
     <div class="page-header">
-        <!-- Back Button -->
-        <button class="back-button" onclick="goBack()" aria-label="Kembali">
-            <span>←</span>
-        </button>
-        
         <div class="container">
-            <h1 class="page-title">Pembayaran</h1>
+            <h1 class="page-title">Tiket Anda</h1>
+            <a href="tiket-antrian.html" class="download-button" onclick="downloadTicket(event)">
+                <span>⬇</span>
+                Download
+            </a>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-container">
         <div class="container">
-            <!-- Payment Instruction -->
-            <div class="payment-instruction">
-                <div class="instruction-text">Gunakan QR</div>
-                <div class="instruction-subtext">Untuk Pembayaran</div>
-            </div>
+            <!-- Ticket -->
+            <div class="ticket-container">
+                <div class="ticket ticket-loading" id="mainTicket">
+                    <div class="success-badge">✓</div>
+                    
+                    <!-- Ticket Header -->
+                    <div class="ticket-header">
+                        <div class="ticket-title">Tiket Antrian</div>
+                        <div class="ticket-instruction">
+                            Diharapkan pasien datang 15 menit sebelum jam pelayanan
+                        </div>
+                    </div>
 
-            <!-- Payment Timer -->
-            <div class="payment-timer">
-                <div class="timer-text">Selesaikan pembayaran dalam:</div>
-                <div class="timer-countdown" id="paymentTimer">14:59</div>
-            </div>
+                    <!-- Ticket Body -->
+                    <div class="ticket-body">
+                        <!-- Divider -->
+                        <div class="ticket-divider"></div>
 
-            <!-- QR Code -->
-            <div class="qr-container">
-                <div class="qr-code-wrapper">
-                    <div class="qr-code" id="qrCode">
-                        <div class="qr-pattern"></div>
-                        <div class="qr-logo">QRIS</div>
+                        <!-- Queue Number -->
+                        <div class="queue-section">
+                            <div class="queue-label">No Antrian</div>
+                            <div class="queue-number">A1-005</div>
+                        </div>
+
+                        <!-- Patient Info -->
+                        <div class="patient-info">
+                            <div class="info-row">
+                                <div class="info-label">Nama</div>
+                                <div class="info-value highlight">Rina Kartika</div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Poliklinik</div>
+                                <div class="info-value">Poli Penyakit Dalam</div>
+                            </div>
+                        </div>
+
+                        <!-- Hospital Info -->
+                        <div class="hospital-info">
+                            <div class="info-row">
+                                <div class="info-label"></div>
+                                <div class="info-value">
+                                    <strong>RS PKU Muhammadiyah Surabaya</strong><br>
+                                    JL. KH. Mas Mansyur No. 180 - 182<br>
+                                    <a href="#" class="directions-link" onclick="getDirections(event)">Petunjuk Arah</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doctor & Schedule -->
+                        <div class="patient-info">
+                            <div class="info-row">
+                                <div class="info-label">Dokter</div>
+                                <div class="info-value highlight">dr. Reza Felani, Sp.PD</div>
+                            </div>
+                        </div>
+
+                        <!-- Appointment Details -->
+                        <div class="appointment-details">
+                              <div class="info-row">
+                                <div class="info-label">Sesi</div>
+                                <div class="info-value">Pengingat</div>
+                            </div>
+                             <div class="detail-item">
+                                <div class="detail-label">Tanggal</div>
+                                <div class="detail-value">28 Mei 2025</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Waktu</div>
+                                <div class="detail-value">16.30 WIB</div>
+                            </div>
+                        </div>
+
+                        <!-- Barcode -->
+                        <div class="barcode-section">
+                            <div class="barcode-label">Kode Pendaftaran</div>
+                            <div class="barcode"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="download-container">
-                <a href="tiket-antrian.html" class="btn-download" onclick="downloadQR(event)">
-                    <span class="download-icon">⬇</span>
-                    Download QR
-                </a>
-            </div>
-
-            <div class="auto-redirect">
-                *Halaman otomatis dialihkan jika pembayaran berhasil
-            </div>
         </div>
     </div>
 
-    <!-- Payment Footer -->
-    <div class="payment-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="total-label">Total Pembayaran</div>
-                <div class="total-amount">RP. 100.000,00-</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Status Modal -->
-    <div class="payment-status" id="paymentStatus">
-        <div class="status-icon waiting" id="statusIcon">
-            ⏱
-        </div>
-        <div class="status-text" id="statusText">Menunggu pembayaran...</div>
-        <div class="status-subtext" id="statusSubtext">Silakan scan QR code menggunakan aplikasi pembayaran Anda</div>
+    <!-- Back Button -->
+    <div class="back-container">
+        <button class="btn-back" onclick="goBack()">
+            Kembali
+        </button>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Global state
-        let paymentTimer = 15 * 60; // 15 minutes in seconds
-        let timerInterval;
-        let paymentSimulation;
-
-        // Format time
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-
-        // Start payment timer
-        function startPaymentTimer() {
-            timerInterval = setInterval(() => {
-                paymentTimer--;
-                document.getElementById('paymentTimer').textContent = formatTime(paymentTimer);
-                
-                // Change color when time is running out
-                const timerElement = document.getElementById('paymentTimer');
-                if (paymentTimer <= 300) { // Last 5 minutes
-                    timerElement.style.color = '#dc3545';
-                } else if (paymentTimer <= 600) { // Last 10 minutes
-                    timerElement.style.color = '#ffc107';
-                }
-                
-                // Timer expired
-                if (paymentTimer <= 0) {
-                    clearInterval(timerInterval);
-                    showPaymentExpired();
-                }
+        // Get directions
+        function getDirections(event) {
+            event.preventDefault();
+            
+            const hospitalAddress = encodeURIComponent(ticketData.hospitalAddress + ', Surabaya');
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${hospitalAddress}`;
+            
+            // Open in new tab
+            window.open(mapsUrl, '_blank');
+            
+            // Show feedback
+            const link = event.target;
+            const originalText = link.textContent;
+            link.textContent = 'https://maps.app.goo.gl/hN3MPDMHYQq7VpRx9';
+            
+            setTimeout(() => {
+                link.textContent = originalText;
             }, 1000);
         }
 
-        // Show payment expired
-        function showPaymentExpired() {
-            const statusModal = document.getElementById('paymentStatus');
-            const statusIcon = document.getElementById('statusIcon');
-            const statusText = document.getElementById('statusText');
-            const statusSubtext = document.getElementById('statusSubtext');
-            
-            statusIcon.className = 'status-icon';
-            statusIcon.style.background = '#dc3545';
-            statusIcon.textContent = '⚠';
-            statusText.textContent = 'Waktu pembayaran habis';
-            statusSubtext.textContent = 'Silakan buat pesanan baru untuk melanjutkan';
-            
-            statusModal.style.display = 'flex';
-            
-            setTimeout(() => {
-                alert('Waktu pembayaran habis. Kembali ke halaman utama...');
-                window.location.href = 'index.html';
-            }, 10);
-        }
-
-        function simulatePaymentSuccess() {
-            const successTime = Math.random() * (10 - 5) + 5;
-            
-            paymentSimulation = setTimeout(() => {
-                clearInterval(timerInterval);
-                showPaymentSuccess();
-            }, successTime * 1000);
-        }
-
-        function showPaymentSuccess() {
-            const statusModal = document.getElementById('paymentStatus');
-            const statusIcon = document.getElementById('statusIcon');
-            const statusText = document.getElementById('statusText');
-            const statusSubtext = document.getElementById('statusSubtext');
-            
-            statusIcon.className = 'status-icon success';
-            statusIcon.textContent = '✓';
-            statusText.textContent = 'Pembayaran berhasil!';
-            statusSubtext.textContent = 'Terima kasih, Anda akan dialihkan ke halaman tiket...';
-            
-            statusModal.style.display = 'flex';
-            
-            setTimeout(() => {
-                console.log('Payment successful, redirecting to ticket page');
-                window.location.href = 'tiket-antrian.html';
-            }, 2000);
-        }
-
-        // Download QR code
-        function downloadQR(event) {
-            event.preventDefault();
-            
-            const button = event.target.closest('.btn-download');
-            const originalText = button.innerHTML;
-            
-            // Show loading state
-            button.innerHTML = '<span class="qr-loading">⟳</span> Downloading...';
-            button.style.pointerEvents = 'none';
-            
-            // Simulate download
-            setTimeout(() => {
-                // In real implementation, this would generate and download actual QR image
-                console.log('QR Code downloaded');
-                
-                // Create a simple download simulation
-                const qrData = `QRIS Payment\nRS PKU Muhammadiyah Surabaya\nAmount: RP. 100.000\nTransaction ID: ${Date.now()}`;
-                const blob = new Blob([qrData], { type: 'text/plain' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'qr-payment-rs-pku.txt';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                
-                // Restore button
-                button.innerHTML = originalText;
-                button.style.pointerEvents = 'auto';
-                
-                // Show success feedback
-                button.style.background = 'var(--primary-color)';
-                button.style.color = 'white';
-                button.style.borderColor = 'var(--primary-color)';
-                
-                setTimeout(() => {
-                    button.style.background = 'white';
-                    button.style.color = '#6C757D';
-                    button.style.borderColor = '#6C757D';
-                }, 1000);
-            }, 1500);
-        }
-
-        // Check payment status (simulate)
-        function checkPaymentStatus() {
-            // In real implementation, this would make API calls to check payment status
-            console.log('Checking payment status...');
-        }
-
-        // Back button
+        // Go back to dashboard
         function goBack() {
-            // Clear timers
-            if (timerInterval) clearInterval(timerInterval);
-            if (paymentSimulation) clearTimeout(paymentSimulation);
+            // Show confirmation
+            const confirmed = confirm('Apakah Anda yakin ingin kembali ke dashboard? Pastikan Anda telah menyimpan tiket ini.');
             
-            window.location.href = 'metode-pembayaran.html';
+            if (confirmed) {
+                console.log('Returning to dashboard');
+                window.location.href = 'index.html';
+            }
         }
 
         // Mobile menu toggle
@@ -835,129 +805,140 @@
             console.log('Menu toggled');
         }
 
+        // Print ticket
+        function printTicket() {
+            window.print();
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            // Start payment timer
-            startPaymentTimer();
-            
-            // Start payment simulation (random success)
-            simulatePaymentSuccess();
-            
-            // Check payment status periodically
-            const statusCheckInterval = setInterval(() => {
-                if (paymentTimer > 0) {
-                    checkPaymentStatus();
-                } else {
-                    clearInterval(statusCheckInterval);
-                }
-            }, 10000); // Check every 10 seconds
-            
-            // Add animations
-            const qrWrapper = document.querySelector('.qr-code-wrapper');
-            qrWrapper.style.opacity = '0';
-            qrWrapper.style.transform = 'scale(0.8)';
+            // Animate ticket appearance
+            const ticket = document.getElementById('mainTicket');
             
             setTimeout(() => {
-                qrWrapper.style.transition = 'all 0.6s ease';
-                qrWrapper.style.opacity = '1';
-                qrWrapper.style.transform = 'scale(1)';
+                ticket.classList.remove('ticket-loading');
+                ticket.classList.add('ticket-loaded');
             }, 300);
-            
-            // Animate instruction
-            const instruction = document.querySelector('.payment-instruction');
-            instruction.style.opacity = '0';
-            instruction.style.transform = 'translateY(-20px)';
-            
-            setTimeout(() => {
-                instruction.style.transition = 'all 0.6s ease';
-                instruction.style.opacity = '1';
-                instruction.style.transform = 'translateY(0)';
-            }, 100);
-            
-            // Animate timer
-            const timer = document.querySelector('.payment-timer');
-            timer.style.opacity = '0';
-            timer.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                timer.style.transition = 'all 0.6s ease';
-                timer.style.opacity = '1';
-                timer.style.transform = 'translateY(0)';
-            }, 200);
             
             // Add keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    printTicket();
+                } else if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    downloadTicket(e);
+                } else if (e.key === 'Escape') {
                     goBack();
-                } else if (e.key === 'd' || e.key === 'D') {
-                    downloadQR(e);
                 }
             });
             
-            // Add QR code hover effect
-            const qrCode = document.getElementById('qrCode');
-            qrCode.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.05)';
-                this.style.transition = 'transform 0.3s ease';
+            // Add ticket hover effects
+            ticket.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
             });
             
-            qrCode.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
+            ticket.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px) scale(1)';
             });
             
-            // Add click to copy functionality
-            qrCode.addEventListener('click', function() {
-                // Copy payment info to clipboard
-                const paymentInfo = 'QRIS Payment - RS PKU Muhammadiyah Surabaya - RP. 100.000';
-                navigator.clipboard.writeText(paymentInfo).then(() => {
+            // Add click to copy queue number
+            const queueNumber = document.querySelector('.queue-number');
+            queueNumber.addEventListener('click', function() {
+                navigator.clipboard.writeText(ticketData.queueNumber).then(() => {
                     // Show feedback
                     const feedback = document.createElement('div');
-                    feedback.textContent = 'Info pembayaran disalin!';
+                    feedback.textContent = 'Nomor antrian disalin!';
                     feedback.style.cssText = `
-                        position: fixed;
-                        top: 50%;
+                        position: absolute;
+                        top: -30px;
                         left: 50%;
-                        transform: translate(-50%, -50%);
+                        transform: translateX(-50%);
                         background: var(--primary-color);
                         color: white;
-                        padding: 1rem 2rem;
-                        border-radius: 25px;
+                        padding: 0.5rem 1rem;
+                        border-radius: 15px;
+                        font-size: 0.8rem;
                         font-weight: 600;
-                        z-index: 10000;
+                        z-index: 1000;
                         animation: fadeInOut 2s ease;
                     `;
                     
-                    document.body.appendChild(feedback);
+                    this.style.position = 'relative';
+                    this.appendChild(feedback);
                     
                     setTimeout(() => {
-                        document.body.removeChild(feedback);
+                        this.removeChild(feedback);
                     }, 2000);
                 }).catch(() => {
                     console.log('Copy failed');
                 });
+            });
+            
+            // Add ripple effect to back button
+            const backButton = document.querySelector('.btn-back');
+            backButton.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(78, 205, 196, 0.4)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.width = ripple.style.height = size + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
             });
         });
 
         // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes successPulse {
+                0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+                50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            }
+            
             @keyframes fadeInOut {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+                50% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            }
+            
+            .download-loading {
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
         `;
         document.head.appendChild(style);
 
-        // Handle page visibility change (detect when user switches tabs)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                console.log('User switched away from page');
-            } else {
-                console.log('User returned to page - checking payment status');
-                checkPaymentStatus();
-            }
-        });
+        // Auto-save ticket data to localStorage (if user wants to retrieve later)
+        localStorage.setItem('lastTicket', JSON.stringify({
+            ...ticketData,
+            timestamp: new Date().toISOString()
+        }));
     </script>
 </body>
 </html>
